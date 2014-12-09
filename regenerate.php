@@ -80,7 +80,7 @@ if (isset($_POST['atlink']))
 <img src="setup_factory/setup_files/setup_images/mini_pog.jpg"/><br/><br/>
 Paste @link below<br/><br/>
 <input name="atlink" type="text" class="i" style="width:500px;"/>
-<br/><br/><input type="image" src="setup_factory/setup_files/setup_images/generate.jpg" name="submit"/>
+<br/><br/><input type="image" src="setup_factory/setup_files/setup_images/generate.png" name="submit"/>
 </form>
 </div>
 </html>

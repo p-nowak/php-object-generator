@@ -20,7 +20,7 @@ if ((!isset($_SESSION['authenticated']) || !$_SESSION['authenticated']) && $GLOB
 <form action="./index.php" method="POST"><br/>
 <img src="setup_images/mini_pog.jpg"/><br/><br/>
 <input name="setup_password" type="password" class="i"/>
-<br/><br/><input type="image" src="setup_images/generate.jpg" name="submit"/>
+<br/><br/><input type="image" src="setup_images/generate.png" name="submit"/>
 </form>
 </div>
 </html>
