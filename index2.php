@@ -106,11 +106,6 @@ else if ($GLOBALS['configuration']['soapEngine'] == "phpsoap")
 		<link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.phpobjectgenerator.com/plog/rss/"/>
 		<link rel="shortcut icon" href="favicon.ico" >
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
-		<script type="text/javascript">
-			_uacct = "UA-72762-1";
-			urchinTracker();
-		</script>
 	</head>
 	<body>
 		<div class="main">
@@ -147,7 +142,7 @@ else if ($GLOBALS['configuration']['soapEngine'] == "phpsoap")
 					<input type="hidden" name="currency_code" value="USD">
 					<input type="hidden" name="tax" value="0">
 					<input type="hidden" name="bn" value="PP-DonationsBF">
-					<input type="image" src="http://www.phpobjectgenerator.com/images/php_code_generator_donate.gif" border="0" name="submit" alt="Thank you!">
+					<input type="image" src="./images/php_code_generator_donate.gif" border="0" name="submit" alt="Thank you!">
 				</form>
 				<br />
 				<br /><img src="./images/wantmorepog.jpg" alt="Want more Php Object Generator?"/>
@@ -205,7 +200,6 @@ else if ($GLOBALS['configuration']['soapEngine'] == "phpsoap")
 					google_color_url = "B8B8B8";
 					google_color_text = "CCC078";
 				//--></script>
-				<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 			</div>
 		</div><!-- main -->
 	</body>

@@ -92,12 +92,6 @@ $pdoDriver = ($misc->GetVariable('pdoDriver')!=null?$misc->GetVariable('pdoDrive
 <meta name="DC.title" content="PHP Object Generator (POG)">
 <script src="jquery.js" type="text/javascript"></script>
 <script src="pog1.js" type="text/javascript"></script>
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-_uacct = "UA-72762-1";
-urchinTracker();
-</script>
 </head>
 <body id="frame">
 <div class="main">
@@ -132,7 +126,7 @@ urchinTracker();
 		<input type="hidden" name="currency_code" value="USD">
 		<input type="hidden" name="tax" value="0">
 		<input type="hidden" name="bn" value="PP-DonationsBF">
-		<input type="image" src="http://www.phpobjectgenerator.com/images/php_code_generator_donate.gif" border="0" name="submit" alt="Thank you!">
+		<input type="image" src="./images/php_code_generator_donate.gif" border="0" name="submit" alt="Thank you!">
 		</form><br/><br/><img src="./images/wantmorepog.jpg" alt="Want more Php Object Generator?"/>
 		<br/><a href="http://www.phpobjectgenerator.com/plog" title="php object generator weblog">The POG Weblog</a> and <a href="http://www.phpobjectgenerator.com/plog/rss/" title="POG RSS feed">RSS feed</a>
 		<br/><a href="http://groups.google.com/group/Php-Object-Generator" title="Php object generator google group">The POG Google group</a>
@@ -183,17 +177,17 @@ urchinTracker();
 		<div class="greybox">
 			<span class="line" id="line_1"><img src="./images/object2.jpg" width="33" height="29" alt="object attribute"/><img src="./images/attribute.jpg" alt="object attribute" width="56" height="18"/>
 				<input  type="text" id="fieldattribute_1" name="fieldattribute_1" class="i f" value="<?php echo (isset($attributeList)&&isset($attributeList[0])?$attributeList[0]:'')?>" ></input>  &nbsp;&nbsp;<img src="./images/type.jpg" width="36" height="18" alt="object attribute"/>
-                <select class="s typ" style="display:<?php echo (!isset($typeList[0])||$misc->TypeIsKnown($typeList[0]) ?"inline": "none")?>" name="type_1" id="type_1">
-                	<?php
-                		$dataTypeIndex = 0;
+				<select class="s typ" style="display:<?php echo (!isset($typeList[0])||$misc->TypeIsKnown($typeList[0]) ?"inline": "none")?>" name="type_1" id="type_1">
+					<?php
+						$dataTypeIndex = 0;
 						eval("include \"include/datatype.mysql.inc.php\";");
 					?>
-                </select>
-              	<input style="display:<?php echo (!isset($typeList[0])||$misc->TypeIsKnown($typeList[0])?"none":"inline")?>" type="text" name="ttype_1" class="i" id="ttype_1" value="<?php echo (isset($typeList)&&isset($typeList[0])&&!$misc->TypeIsKnown($typeList[0])?$typeList[0]:'')?>"></input>
-              	&nbsp;&nbsp;
-              	<img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:<?php echo (isset($typeList[0])&&$typeList[0] == "BELONGSTO" || isset($typeList[0])&&$typeList[0] == "HASMANY"?"inline":"none")?>"/ >
-              	<input style="display:<?php echo (isset($typeList[0])&&$typeList[0] == "BELONGSTO" || isset($typeList[0])&&$typeList[0] == "HASMANY"?"inline":"none")?>" type="text" name="tclass_1" class="i" id="tclass_1" value="<?php echo (isset($classList)&&isset($classList[0])?$classList[0]:'')?>"></input>
-            </span><br/><br/>
+				</select>
+				<input style="display:<?php echo (!isset($typeList[0])||$misc->TypeIsKnown($typeList[0])?"none":"inline")?>" type="text" name="ttype_1" class="i" id="ttype_1" value="<?php echo (isset($typeList)&&isset($typeList[0])&&!$misc->TypeIsKnown($typeList[0])?$typeList[0]:'')?>"></input>
+				&nbsp;&nbsp;
+				<img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:<?php echo (isset($typeList[0])&&$typeList[0] == "BELONGSTO" || isset($typeList[0])&&$typeList[0] == "HASMANY"?"inline":"none")?>"/ >
+				<input style="display:<?php echo (isset($typeList[0])&&$typeList[0] == "BELONGSTO" || isset($typeList[0])&&$typeList[0] == "HASMANY"?"inline":"none")?>" type="text" name="tclass_1" class="i" id="tclass_1" value="<?php echo (isset($classList)&&isset($classList[0])?$classList[0]:'')?>"></input>
+			</span><br/><br/>
 			<span class="line" id="line_2"><img src="./images/object2.jpg" width="33" height="29" alt="object attribute"/><img src="./images/attribute.jpg" alt="object attribute" width="56" height="18"/>
 				<input type="text" id="fieldattribute_2" name="fieldattribute_2" class="i f" value="<?php echo (isset($attributeList)&&isset($attributeList[1])?$attributeList[1]:'')?>" ></input> &nbsp;&nbsp;<img src="./images/type.jpg" width="36" height="18" alt="object attribute"/>
 				<select class="s typ" style="display:<?php echo (!isset($typeList[1])||$misc->TypeIsKnown($typeList[1]) ?"inline":"none")?>" name="type_2" id="type_2">
@@ -201,12 +195,12 @@ urchinTracker();
 						$dataTypeIndex = 1;
 						eval("include \"include/datatype.mysql.inc.php\";");
 					?>
-                </select>
-                <input style="display:<?php echo (!isset($typeList[1])||$misc->TypeIsKnown($typeList[1]) ?"none":"inline")?>" type="text" name="ttype_2" class="i" id="ttype_2" value="<?php echo (isset($typeList)&&isset($typeList[1])&&!$misc->TypeIsKnown($typeList[1])?$typeList[1]:'')?>"></input>
-                &nbsp;&nbsp;
-                <img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:<?php echo (isset($typeList[1])&&$typeList[1] == "BELONGSTO" || isset($typeList[1])&&$typeList[1] == "HASMANY"?"inline":"none")?>"/>
-                <input style="display:<?php echo (isset($typeList[1])&&$typeList[1] == "BELONGSTO" || isset($typeList[0])&&$typeList[1] == "HASMANY"?"inline":"none")?>" type="text" name="tclass_2" class="i" id="tclass_2" value="<?php echo (isset($classList)&&isset($classList[1])?$classList[1]:'')?>"></input>
-        	</span><br/><br/>
+				</select>
+				<input style="display:<?php echo (!isset($typeList[1])||$misc->TypeIsKnown($typeList[1]) ?"none":"inline")?>" type="text" name="ttype_2" class="i" id="ttype_2" value="<?php echo (isset($typeList)&&isset($typeList[1])&&!$misc->TypeIsKnown($typeList[1])?$typeList[1]:'')?>"></input>
+				&nbsp;&nbsp;
+				<img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:<?php echo (isset($typeList[1])&&$typeList[1] == "BELONGSTO" || isset($typeList[1])&&$typeList[1] == "HASMANY"?"inline":"none")?>"/>
+				<input style="display:<?php echo (isset($typeList[1])&&$typeList[1] == "BELONGSTO" || isset($typeList[0])&&$typeList[1] == "HASMANY"?"inline":"none")?>" type="text" name="tclass_2" class="i" id="tclass_2" value="<?php echo (isset($classList)&&isset($classList[1])?$classList[1]:'')?>"></input>
+			</span><br/><br/>
 			<span class="line" id="line_3"><img src="./images/object2.jpg" width="33" height="29" alt="object attribute"/><img src="./images/attribute.jpg" alt="object attribute" width="56" height="18"/>
 				<input type="text" id="fieldattribute_3" name="fieldattribute_3" class="i f" value="<?php echo (isset($attributeList)&&isset($attributeList[2])?$attributeList[2]:'')?>" ></input> &nbsp;&nbsp;<img src="./images/type.jpg" width="36" height="18" alt="object attribute"/>
 				<select class="s typ" style="display:<?php echo (!isset($typeList[2])||$misc->TypeIsKnown($typeList[2]) ?"inline":"none")?>" name="type_3" id="type_3">
@@ -215,11 +209,11 @@ urchinTracker();
 						eval("include \"include/datatype.mysql.inc.php\";");
 					?>
 				</select>
-                <input style="display:<?php echo (!isset($typeList[2])||$misc->TypeIsKnown($typeList[2]) ?"none":"inline")?>" type="text" name="ttype_3" class="i" id="ttype_3" value="<?php echo (isset($typeList)&&isset($typeList[2])&&!$misc->TypeIsKnown($typeList[2])?$typeList[2]:'')?>"></input>
-                &nbsp;&nbsp;
-                <img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:<?php echo (isset($typeList[2])&&$typeList[2] == "BELONGSTO" || isset($typeList[2])&&$typeList[2] == "HASMANY"?"inline":"none")?>"/>
-                <input style="display:<?php echo (isset($typeList[2])&&$typeList[2] == "BELONGSTO" || isset($typeList[0])&&$typeList[2] == "HASMANY"?"inline":"none")?>" type="text" name="tclass_3" class="i" id="tclass_3" value="<?php echo (isset($classList)&&isset($classList[2])?$classList[2]:'')?>"></input>
-            </span><br/>
+				<input style="display:<?php echo (!isset($typeList[2])||$misc->TypeIsKnown($typeList[2]) ?"none":"inline")?>" type="text" name="ttype_3" class="i" id="ttype_3" value="<?php echo (isset($typeList)&&isset($typeList[2])&&!$misc->TypeIsKnown($typeList[2])?$typeList[2]:'')?>"></input>
+				&nbsp;&nbsp;
+				<img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:<?php echo (isset($typeList[2])&&$typeList[2] == "BELONGSTO" || isset($typeList[2])&&$typeList[2] == "HASMANY"?"inline":"none")?>"/>
+				<input style="display:<?php echo (isset($typeList[2])&&$typeList[2] == "BELONGSTO" || isset($typeList[0])&&$typeList[2] == "HASMANY"?"inline":"none")?>" type="text" name="tclass_3" class="i" id="tclass_3" value="<?php echo (isset($classList)&&isset($classList[2])?$classList[2]:'')?>"></input>
+			</span><br/>
 		<?php
 		if (isset($attributeList))
 		{
@@ -235,11 +229,11 @@ urchinTracker();
 				eval("include \"./include/datatype.mysql.inc.php\";");
 
 				echo '</select>
-                <input style="display:'.(!isset($typeList[$j-1])||$misc->TypeIsKnown($typeList[$j-1]) ?"none":"inline").'" type="text" id="ttype_'.$j.'"  name="ttype_'.$j.'" class="i" value="'.(isset($typeList)&&isset($typeList[$j-1])&&!$misc->TypeIsKnown($typeList[$j-1])?$typeList[$j-1]:'').'"></input>
-                &nbsp;&nbsp;
-                <img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:'.(isset($typeList[$j-1])&&$typeList[$j-1] == "BELONGSTO" || isset($typeList[$j-1])&&$typeList[$j-1] == "HASMANY"?"inline":"none").'"/>
-                <input style="display:'.(isset($typeList[$j-1])&&$typeList[$j-1] == "BELONGSTO" || isset($typeList[$j-1])&&$typeList[$j-1] == "HASMANY"?"inline":"none").'" type="text" name="tclass_'.$j.'" class="i" id="tclass_'.$j.'" value="'.(isset($classList)&&isset($classList[$j-1])?$classList[$j-1]:'').'"></input>
-                </span><br/>
+				<input style="display:'.(!isset($typeList[$j-1])||$misc->TypeIsKnown($typeList[$j-1]) ?"none":"inline").'" type="text" id="ttype_'.$j.'"  name="ttype_'.$j.'" class="i" value="'.(isset($typeList)&&isset($typeList[$j-1])&&!$misc->TypeIsKnown($typeList[$j-1])?$typeList[$j-1]:'').'"></input>
+				&nbsp;&nbsp;
+				<img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:'.(isset($typeList[$j-1])&&$typeList[$j-1] == "BELONGSTO" || isset($typeList[$j-1])&&$typeList[$j-1] == "HASMANY"?"inline":"none").'"/>
+				<input style="display:'.(isset($typeList[$j-1])&&$typeList[$j-1] == "BELONGSTO" || isset($typeList[$j-1])&&$typeList[$j-1] == "HASMANY"?"inline":"none").'" type="text" name="tclass_'.$j.'" class="i" id="tclass_'.$j.'" value="'.(isset($classList)&&isset($classList[$j-1])?$classList[$j-1]:'').'"></input>
+				</span><br/>
 				</div>';
 			}
 
@@ -261,8 +255,8 @@ urchinTracker();
 				<input style="display:none" type="text" id="ttype_'.$j.'" name="ttype_'.$j.'" class="i"></input>
 				&nbsp;&nbsp;
 				<img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:none"/>
-                <input style="display:none" type="text" name="tclass_'.$j.'" class="i" id="tclass_'.$j.'"></input>
-                </span>
+				<input style="display:none" type="text" name="tclass_'.$j.'" class="i" id="tclass_'.$j.'"></input>
+				</span>
 				<br/>
 				</div>';
 
@@ -278,15 +272,15 @@ urchinTracker();
 					<input type="text" name="fieldattribute_'.$j.'" class="i f" id="fieldattribute_'.$j.'" /> &nbsp;&nbsp;<img src="./images/type.jpg" alt="object attribute"/>
 				<select class="s typ" style="display:inline" name="type_'.$j.'" id="type_'.$j.'">';
 
-                $dataTypeIndex = $j;
+				$dataTypeIndex = $j;
 				eval("include \"./include/datatype.mysql.inc.php\";");
 
 
-                echo '</select>
+				echo '</select>
 				<input style="display:none" type="text" id="ttype_'.$j.'" name="ttype_'.$j.'" class="i"></input>
 				&nbsp;&nbsp;
 				<img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:none"/>
-                <input style="display:none" type="text" name="tclass_'.$j.'" class="i" id="tclass_'.$j.'"></input>
+				<input style="display:none" type="text" name="tclass_'.$j.'" class="i" id="tclass_'.$j.'"></input>
 				</span><br/>
 				</div>';
 			}
@@ -317,9 +311,6 @@ google_color_link = "716500";
 google_color_url = "B8B8B8";
 google_color_text = "CCC078";
 //--></script>
-<script type="text/javascript"
-  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
 	</div>
 </div><!-- main -->
 </body>
