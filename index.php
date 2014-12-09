@@ -153,7 +153,7 @@ urchinTracker();
 				<option value="php4" <?php echo($misc->GetVariable('language') != null && $misc->GetVariable('language')=="php4"?"selected":"")?>>PHP 4</option>
 			</select>
 			<br/><br/>
-			<select class="s" name="wrapper" id="wrapper" onchange="IsPDO()">
+			<select class="s" name="wrapper" id="wrapper" onchange="IsPDO();">
 				<option value="POG"  <?php echo ($misc->GetVariable('wrapper') != null&& strtoupper($misc->GetVariable('wrapper'))=="POG"?"selected":"")?>>POG</option>
 				<?php
 				if (($misc->GetVariable('wrapper') != null&& strtoupper($misc->GetVariable('wrapper'))=="PDO"))
@@ -182,43 +182,43 @@ urchinTracker();
 		</div><!-- objectname -->
 		<div class="greybox">
 			<span class="line" id="line_1"><img src="./images/object2.jpg" width="33" height="29" alt="object attribute"/><img src="./images/attribute.jpg" alt="object attribute" width="56" height="18"/>
-				<input  type="text" id="fieldattribute_1" name="fieldattribute_1" class="i f" value="<?=(isset($attributeList)&&isset($attributeList[0])?$attributeList[0]:'')?>" ></input>  &nbsp;&nbsp;<img src="./images/type.jpg" width="36" height="18" alt="object attribute"/>
-                <select class="s typ" style="display:<?=(!isset($typeList[0])||$misc->TypeIsKnown($typeList[0]) ?"inline":"none")?>" name="type_1" id="type_1">
+				<input  type="text" id="fieldattribute_1" name="fieldattribute_1" class="i f" value="<?php (isset($attributeList)&&isset($attributeList[0])?$attributeList[0]:'')?>" ></input>  &nbsp;&nbsp;<img src="./images/type.jpg" width="36" height="18" alt="object attribute"/>
+                <select class="s typ" style="display:<?php (!isset($typeList[0])||$misc->TypeIsKnown($typeList[0]) ?"inline": "none")?>" name="type_1" id="type_1">
                 	<?
                 		$dataTypeIndex = 0;
 						eval("include \"include/datatype.mysql.inc.php\";");
 					?>
                 </select>
-              	<input style="display:<?=(!isset($typeList[0])||$misc->TypeIsKnown($typeList[0])?"none":"inline")?>" type="text" name="ttype_1" class="i" id="ttype_1" value="<?=(isset($typeList)&&isset($typeList[0])&&!$misc->TypeIsKnown($typeList[0])?$typeList[0]:'')?>"></input>
+              	<input style="display:<?php (!isset($typeList[0])||$misc->TypeIsKnown($typeList[0])?"none":"inline")?>" type="text" name="ttype_1" class="i" id="ttype_1" value="<?php (isset($typeList)&&isset($typeList[0])&&!$misc->TypeIsKnown($typeList[0])?$typeList[0]:'')?>"></input>
               	&nbsp;&nbsp;
-              	<img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:<?=(isset($typeList[0])&&$typeList[0] == "BELONGSTO" || isset($typeList[0])&&$typeList[0] == "HASMANY"?"inline":"none")?>"/ >
-              	<input style="display:<?=(isset($typeList[0])&&$typeList[0] == "BELONGSTO" || isset($typeList[0])&&$typeList[0] == "HASMANY"?"inline":"none")?>" type="text" name="tclass_1" class="i" id="tclass_1" value="<?=(isset($classList)&&isset($classList[0])?$classList[0]:'')?>"></input>
+              	<img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:<?php (isset($typeList[0])&&$typeList[0] == "BELONGSTO" || isset($typeList[0])&&$typeList[0] == "HASMANY"?"inline":"none")?>"/ >
+              	<input style="display:<?php (isset($typeList[0])&&$typeList[0] == "BELONGSTO" || isset($typeList[0])&&$typeList[0] == "HASMANY"?"inline":"none")?>" type="text" name="tclass_1" class="i" id="tclass_1" value="<?php (isset($classList)&&isset($classList[0])?$classList[0]:'')?>"></input>
             </span><br/><br/>
 			<span class="line" id="line_2"><img src="./images/object2.jpg" width="33" height="29" alt="object attribute"/><img src="./images/attribute.jpg" alt="object attribute" width="56" height="18"/>
-				<input type="text" id="fieldattribute_2" name="fieldattribute_2" class="i f" value="<?=(isset($attributeList)&&isset($attributeList[1])?$attributeList[1]:'')?>" ></input> &nbsp;&nbsp;<img src="./images/type.jpg" width="36" height="18" alt="object attribute"/>
-				<select class="s typ" style="display:<?=(!isset($typeList[1])||$misc->TypeIsKnown($typeList[1]) ?"inline":"none")?>" name="type_2" id="type_2">
+				<input type="text" id="fieldattribute_2" name="fieldattribute_2" class="i f" value="<?php (isset($attributeList)&&isset($attributeList[1])?$attributeList[1]:'')?>" ></input> &nbsp;&nbsp;<img src="./images/type.jpg" width="36" height="18" alt="object attribute"/>
+				<select class="s typ" style="display:<?php (!isset($typeList[1])||$misc->TypeIsKnown($typeList[1]) ?"inline":"none")?>" name="type_2" id="type_2">
               		<?
                 		$dataTypeIndex = 1;
 						eval("include \"include/datatype.mysql.inc.php\";");
 					?>
                 </select>
-                <input style="display:<?=(!isset($typeList[1])||$misc->TypeIsKnown($typeList[1]) ?"none":"inline")?>" type="text" name="ttype_2" class="i" id="ttype_2" value="<?=(isset($typeList)&&isset($typeList[1])&&!$misc->TypeIsKnown($typeList[1])?$typeList[1]:'')?>"></input>
+                <input style="display:<?php (!isset($typeList[1])||$misc->TypeIsKnown($typeList[1]) ?"none":"inline")?>" type="text" name="ttype_2" class="i" id="ttype_2" value="<?php (isset($typeList)&&isset($typeList[1])&&!$misc->TypeIsKnown($typeList[1])?$typeList[1]:'')?>"></input>
                 &nbsp;&nbsp;
-                <img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:<?=(isset($typeList[1])&&$typeList[1] == "BELONGSTO" || isset($typeList[1])&&$typeList[1] == "HASMANY"?"inline":"none")?>"/>
-                <input style="display:<?=(isset($typeList[1])&&$typeList[1] == "BELONGSTO" || isset($typeList[0])&&$typeList[1] == "HASMANY"?"inline":"none")?>" type="text" name="tclass_2" class="i" id="tclass_2" value="<?=(isset($classList)&&isset($classList[1])?$classList[1]:'')?>"></input>
+                <img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:<?php (isset($typeList[1])&&$typeList[1] == "BELONGSTO" || isset($typeList[1])&&$typeList[1] == "HASMANY"?"inline":"none")?>"/>
+                <input style="display:<?php (isset($typeList[1])&&$typeList[1] == "BELONGSTO" || isset($typeList[0])&&$typeList[1] == "HASMANY"?"inline":"none")?>" type="text" name="tclass_2" class="i" id="tclass_2" value="<?php (isset($classList)&&isset($classList[1])?$classList[1]:'')?>"></input>
         	</span><br/><br/>
 			<span class="line" id="line_3"><img src="./images/object2.jpg" width="33" height="29" alt="object attribute"/><img src="./images/attribute.jpg" alt="object attribute" width="56" height="18"/>
-				<input type="text" id="fieldattribute_3" name="fieldattribute_3" class="i f" value="<?=(isset($attributeList)&&isset($attributeList[2])?$attributeList[2]:'')?>" ></input> &nbsp;&nbsp;<img src="./images/type.jpg" width="36" height="18" alt="object attribute"/>
-				<select class="s typ" style="display:<?=(!isset($typeList[2])||$misc->TypeIsKnown($typeList[2]) ?"inline":"none")?>" name="type_3" id="type_3">
+				<input type="text" id="fieldattribute_3" name="fieldattribute_3" class="i f" value="<?php (isset($attributeList)&&isset($attributeList[2])?$attributeList[2]:'')?>" ></input> &nbsp;&nbsp;<img src="./images/type.jpg" width="36" height="18" alt="object attribute"/>
+				<select class="s typ" style="display:<?php (!isset($typeList[2])||$misc->TypeIsKnown($typeList[2]) ?"inline":"none")?>" name="type_3" id="type_3">
 	                	<?
 	                		$dataTypeIndex = 2;
 							eval("include \"include/datatype.mysql.inc.php\";");
 						?>
 				</select>
-                <input style="display:<?=(!isset($typeList[2])||$misc->TypeIsKnown($typeList[2]) ?"none":"inline")?>" type="text" name="ttype_3" class="i" id="ttype_3" value="<?=(isset($typeList)&&isset($typeList[2])&&!$misc->TypeIsKnown($typeList[2])?$typeList[2]:'')?>"></input>
+                <input style="display:<?php (!isset($typeList[2])||$misc->TypeIsKnown($typeList[2]) ?"none":"inline")?>" type="text" name="ttype_3" class="i" id="ttype_3" value="<?php (isset($typeList)&&isset($typeList[2])&&!$misc->TypeIsKnown($typeList[2])?$typeList[2]:'')?>"></input>
                 &nbsp;&nbsp;
-                <img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:<?=(isset($typeList[2])&&$typeList[2] == "BELONGSTO" || isset($typeList[2])&&$typeList[2] == "HASMANY"?"inline":"none")?>"/>
-                <input style="display:<?=(isset($typeList[2])&&$typeList[2] == "BELONGSTO" || isset($typeList[0])&&$typeList[2] == "HASMANY"?"inline":"none")?>" type="text" name="tclass_3" class="i" id="tclass_3" value="<?=(isset($classList)&&isset($classList[2])?$classList[2]:'')?>"></input>
+                <img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:<?php (isset($typeList[2])&&$typeList[2] == "BELONGSTO" || isset($typeList[2])&&$typeList[2] == "HASMANY"?"inline":"none")?>"/>
+                <input style="display:<?php (isset($typeList[2])&&$typeList[2] == "BELONGSTO" || isset($typeList[0])&&$typeList[2] == "HASMANY"?"inline":"none")?>" type="text" name="tclass_3" class="i" id="tclass_3" value="<?php (isset($classList)&&isset($classList[2])?$classList[2]:'')?>"></input>
             </span><br/>
 		<?php
 		if (isset($attributeList))
@@ -294,7 +294,7 @@ urchinTracker();
 		?>
 		</div><!-- greybox -->
 		<div class="generate">
-			<a href="#" onclick="AddField();return false;"><img src="./images/addattribute.jpg" border="0" alt="add attribute"/></a> <a href="#" onclick="ResetFields();return false"><img src="./images/resetfields.jpg" border="0" alt="reset fields"/></a>
+			<a href="#" onclick="AddField();return false;"><img src="./images/addattribute.jpg" border="0" alt="add attribute"/></a> <a href="#" onclick="ResetFields();return false;"><img src="./images/resetfields.jpg" border="0" alt="reset fields"/></a>
 		</div><!-- generate -->
 
 		<div class="submit">
