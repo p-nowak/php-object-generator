@@ -10,7 +10,7 @@ class Object
 	var $pdoDriver = "";
 	var $language = 'php5.1';
 	var $classList;
-	
+
 
 	// -------------------------------------------------------------
 	function Object($objectName, $attributeList = '', $typeList ='', $pdoDriver = '', $language = 'php5.1', $classList)
@@ -89,7 +89,6 @@ class Object
 		$this->string .= ");\n\t";
 		$this->string .= "public \$pog_query;";
 		$this->string .= "\n\tprotected \$connection;";
-		
 	}
 
 	// -------------------------------------------------------------
@@ -169,16 +168,16 @@ class Object
 	function CreateComments($description='', $parameterDescriptionArray='', $returnType='')
 	{
 		$this->string .= "/**\n"
- 		."\t * $description\n";
- 		if ($parameterDescriptionArray != '')
- 		{
-	 		foreach ($parameterDescriptionArray as $parameter)
-	 		{
-	 			$this->string .= "\t * @param $parameter \n";
-	 		}
- 		}
-	     $this->string .= "\t * @return $returnType\n"
-	     ."\t */\n";
+		."\t * $description\n";
+		if ($parameterDescriptionArray != '')
+		{
+			foreach ($parameterDescriptionArray as $parameter)
+			{
+				$this->string .= "\t * @param $parameter \n";
+			}
+		}
+		 $this->string .= "\t * @return $returnType\n"
+		 ."\t */\n";
 	}
 
 	// -------------------------------------------------------------
@@ -207,11 +206,11 @@ class Object
 		$this->string .= $this->CreateComments("Getter for some private attributes",'',"mixed \$attribute");
 		$this->string .= "\tpublic function __get(\$attribute)\n\t{";
 		$this->string .= "\n\t\tif (isset(\$this->{\"_\".\$attribute})) {";
-	    $this->string .= "\n\t\t\treturn \$this->{\"_\".\$attribute};";
-	    $this->string .= "\n\t\t} else {";
-       	$this->string .= "\n\t\t\treturn false;";
-       	$this->string .= "\n\t\t}";
-	    $this->string .= "\n\t}";
+		$this->string .= "\n\t\t\treturn \$this->{\"_\".\$attribute};";
+		$this->string .= "\n\t\t} else {";
+		$this->string .= "\n\t\t\treturn false;";
+		$this->string .= "\n\t\t}";
+		$this->string .= "\n\t}";
 	}
 
 	// -------------------------------------------------------------
