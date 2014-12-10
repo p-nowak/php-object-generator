@@ -230,67 +230,8 @@ class AssignmentGrade extends WPOGBase
 		return $this->Save();
 	}
 	
-	/**
-	* @return int Points (score) given to the student for the assignment.
-	*/
-	function getPoints()
-	{
-		return $this->points;
-	}
-	
 	
 	/**
-	* @return int Assignment ID for this assignment. Can be use to lookup info in assignment table.
-	*/
-	function getAssignmentID()
-	{
-		return $this->assignment_id;
-	}
-	
-	/**
-	 * @todo Implement.
-	* @return int Points possible for the assignment.
-	*/
-	function getPointsPossible()
-	{
-		$assignment_id = (int) $this->getAssignmentID();
-		if ( $assignment_id == 0 ) {
-			throw new Exception( __FILE__ ." : ".  __LINE__ ." : Invalid ID: $assignment_id.");
-		}
-		
-		//$pointsPossible;
-		
-		return $pointsPossible;
-	}
-	
-	/**
-	 * Percentage is in decimal format (e.g. 0.87), in other words, multiple by 100 to get the people friendly version (e.g. 87%)
-	* @return float Percentage in decimal format.
-	*/
-	function getPercentage()
-	{
-		$percentage = 0;
-		$points = (float) $this->points;
-		$pointsPossible = (float) $this->getPointsPossible();
-		if (0 != $pointsPossible) {
-			$percentage = $points / $pointsPossible;
-		}
-		
-		return $percentage;
-	}
-	
-	/**
-	 * Variables 
-	 * @return bool true if grade for this assignment is a passing grade, false if not
 	 */
-	function isPassing()
-	{
-		$this->getPercentage();
-		$this->pog_query = "SELECT is_passing FROM assignment_scale_grade WHERE min_pct <= :percentage AND scale_id = :scale_id ORDER BY min_pct DESC LIMIT 1;
-";
-		// Bind values
-		// Check if passing or not.
-		return true;
-	}
 }
 ?>

@@ -30,7 +30,7 @@ class Object
 		$misc = new Misc(array());
 		$this->string = "<?php\n";
 		$this->string .= $this->CreatePreface();
-		$this->string .= "\ninclude_once('class.pog_base.php');";
+		$this->string .= "\nrequire_once('WPOGBase.class.inc');";
 		foreach ($this->typeList as $key => $type)
 		{
 			if ($type == "JOIN")
@@ -45,7 +45,7 @@ class Object
 				array_push($impArray, strtolower($this->classList[$key])) ;
 			}
 		}
-		$this->string .= "\nclass ".$this->objectName." extends POG_Base\n{\n\t";
+		$this->string .= "\nclass ".$this->objectName." extends WPOGBase\n{\n\t";
 		$this->string.="public \$".strtolower($this->objectName)."Id = '';\n\n\t";
 		$x = 0;
 		foreach ($this->attributeList as $attribute)
@@ -88,6 +88,8 @@ class Object
 		}
 		$this->string .= ");\n\t";
 		$this->string .= "public \$pog_query;";
+		$this->string .= "\n\tprotected \$connection;";
+		
 	}
 
 	// -------------------------------------------------------------
@@ -119,6 +121,8 @@ class Object
 			$i++;
 		}
 		$this->string .= ")\n\t{";
+		$this->string .= "\n\t\tglobal \$DATABASEPDO;";
+		$this->string .= "\n\t\t\$this->connection = \$DATABASEPDO;";
 		$x = 0;
 		foreach ($this->attributeList as $attribute)
 		{
@@ -224,7 +228,6 @@ class Object
 		{
 			$this->string .= "\tfunction save()\n\t{";
 		}
-		$this->string .= "\n\t\t\$connection = Database::Connect();";
 		$this->string .= "\n\t\t\$rows = 0;";
 		$this->string .= "\n\t\tif (\$this->".strtolower($this->objectName)."Id!=''){";
 		$this->string .= "\n\t\t\t\$this->pog_query = \"select `".strtolower($this->objectName)."id` from `".strtolower($this->objectName)."` where `".strtolower($this->objectName)."id`='\".\$this->".strtolower($this->objectName)."Id.\"' LIMIT 1\";";
@@ -494,7 +497,6 @@ class Object
 				$this->string .= "\n\t\t}";
 			}
 		}
-		$this->string .= "\n\t\t\$connection = Database::Connect();";
 		$this->string .= "\n\t\t\$this->pog_query = \"delete from `".strtolower($this->objectName)."` where `".strtolower($this->objectName)."id`='\".\$this->".strtolower($this->objectName)."Id.\"'\";";
 		$this->string .= "\n\t\treturn Database::NonQuery(\$this->pog_query, \$connection);";
 		$this->string .= "\n\t}";
@@ -516,7 +518,6 @@ class Object
 		$this->string .= "\n\t".$this->separator."\n\t";
 		$this->string .= $this->CreateComments("Gets object from database",array("integer \$".strtolower($this->objectName)."Id"),"object \$".$this->objectName);
 		$this->string .="\tfunction get(\$".strtolower($this->objectName)."Id)\n\t{";
-		$this->string .= "\n\t\t\$connection = Database::Connect();";
 		$this->string .= "\n\t\t\$this->pog_query = \"select * from `".strtolower($this->objectName)."` where `".strtolower($this->objectName)."id`='\".intval(\$".strtolower($this->objectName)."Id).\"' LIMIT 1\";";
 		$this->string .= "\n\t\t\$cursor = Database::Reader(\$this->pog_query, \$connection);";
 		$this->string .= "\n\t\twhile (\$row = Database::Read(\$cursor)) {";
@@ -668,7 +669,6 @@ class Object
 		$this->string .= $this->CreateComments("Returns a sorted array of objects that match given conditions",array("multidimensional array {(\"field\", \"comparator\", \"value\"), (\"field\", \"comparator\", \"value\"), ...}","string \$sortBy","boolean \$ascending","int limit"),"array \$".strtolower($this->objectName)."List");
 		$this->string .= "\tfunction get".ucfirst(strtolower($sibling))."List(\$fcv_array = array(), \$sortBy='', \$ascending=true, \$limit='')\n\t{";
 		$this->string .= "\n\t\t\$sqlLimit = (\$limit != '' ? \"LIMIT \$limit\" : '');";
-		$this->string .= "\n\t\t\$connection = Database::Connect();";
 		$this->string .= "\n\t\t\$".strtolower($sibling)." = new ".$sibling."();";
 		$this->string .= "\n\t\t\$".strtolower($sibling)."List = Array();";
 		$this->string .= "\n\t\t\$this->pog_query = \"select distinct * from `".strtolower($sibling)."` a INNER JOIN `".strtolower($misc->MappingName($this->objectName, $sibling))."` m ON m.".strtolower($sibling)."id = a.".strtolower($sibling)."id where m.".strtolower($this->objectName)."id = '\$this->".strtolower($this->objectName)."Id' \";";

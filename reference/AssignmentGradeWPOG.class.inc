@@ -1,6 +1,6 @@
 <?php
 /*
-	This SQL query will create the table to store your object.
+	This SQL query will create the table to store your object. GEN FILE:/var/www/wings/pog/object_factory/class.objectphp5.1pdomysql.php
 
 	CREATE TABLE `assignmentgrade` (
 	`assignmentgradeid` int(11) NOT NULL auto_increment,
@@ -15,15 +15,15 @@
 */
 
 /**
-* <b>AssignmentGrade</b> class with integrated CRUD methods.
-* @author Php Object Generator
-* @version POG 3.3 / PHP5.1 MYSQL
-* @see http://www.phpobjectgenerator.com/plog/tutorials/45/pdo-mysql
-* @copyright Free for personal & commercial use. (Offered under the BSD license)
-* @link https://wingsdev.local/wings/pog/?language=php5.1&wrapper=pdo&pdoDriver=mysql&objectName=AssignmentGrade&attributeList=array+%28%0A++0+%3D%3E+%27assignment_id%27%2C%0A++1+%3D%3E+%27student_id%27%2C%0A++2+%3D%3E+%27points%27%2C%0A++3+%3D%3E+%27grade_id%27%2C%0A++4+%3D%3E+%27comment%27%2C%0A++5+%3D%3E+%27is_waived%27%2C%0A++6+%3D%3E+%27due%27%2C%0A++7+%3D%3E+%27assigned%27%2C%0A%29&typeList=array%2B%2528%250A%2B%2B0%2B%253D%253E%2B%2527INT%2527%252C%250A%2B%2B1%2B%253D%253E%2B%2527INT%2527%252C%250A%2B%2B2%2B%253D%253E%2B%2527INT%2527%252C%250A%2B%2B3%2B%253D%253E%2B%2527INT%2527%252C%250A%2B%2B4%2B%253D%253E%2B%2527VARCHAR%2528255%2529%2527%252C%250A%2B%2B5%2B%253D%253E%2B%2527TINYINT%2527%252C%250A%2B%2B6%2B%253D%253E%2B%2527DATE%2527%252C%250A%2B%2B7%2B%253D%253E%2B%2527DATE%2527%252C%250A%2529&classList=array+%28%0A++0+%3D%3E+%27%27%2C%0A++1+%3D%3E+%27%27%2C%0A++2+%3D%3E+%27%27%2C%0A++3+%3D%3E+%27%27%2C%0A++4+%3D%3E+%27%27%2C%0A++5+%3D%3E+%27%27%2C%0A++6+%3D%3E+%27%27%2C%0A++7+%3D%3E+%27%27%2C%0A%29
-*/
-include_once('class.pog_base.php');
-class AssignmentGrade extends POG_Base
+ * <b>AssignmentGrade</b> class with integrated CRUD methods.
+ * @author Php Object Generator
+ * @version POG 3.3 / PHP5.1 MYSQL
+ * @see http://www.phpobjectgenerator.com/plog/tutorials/45/pdo-mysql
+ * @copyright Free for personal & commercial use. (Offered under the BSD license)
+ * @link https://wingsdev.local/wings/pog/?language=php5.1&wrapper=pdo&pdoDriver=mysql&objectName=AssignmentGrade&attributeList=array+%28%0A++0+%3D%3E+%27assignment_id%27%2C%0A++1+%3D%3E+%27student_id%27%2C%0A++2+%3D%3E+%27points%27%2C%0A++3+%3D%3E+%27grade_id%27%2C%0A++4+%3D%3E+%27comment%27%2C%0A++5+%3D%3E+%27is_waived%27%2C%0A++6+%3D%3E+%27due%27%2C%0A++7+%3D%3E+%27assigned%27%2C%0A%29&typeList=array%2B%2528%250A%2B%2B0%2B%253D%253E%2B%2527INT%2527%252C%250A%2B%2B1%2B%253D%253E%2B%2527INT%2527%252C%250A%2B%2B2%2B%253D%253E%2B%2527INT%2527%252C%250A%2B%2B3%2B%253D%253E%2B%2527INT%2527%252C%250A%2B%2B4%2B%253D%253E%2B%2527VARCHAR%2528255%2529%2527%252C%250A%2B%2B5%2B%253D%253E%2B%2527TINYINT%2527%252C%250A%2B%2B6%2B%253D%253E%2B%2527DATE%2527%252C%250A%2B%2B7%2B%253D%253E%2B%2527DATE%2527%252C%250A%2529&classList=array+%28%0A++0+%3D%3E+%27%27%2C%0A++1+%3D%3E+%27%27%2C%0A++2+%3D%3E+%27%27%2C%0A++3+%3D%3E+%27%27%2C%0A++4+%3D%3E+%27%27%2C%0A++5+%3D%3E+%27%27%2C%0A++6+%3D%3E+%27%27%2C%0A++7+%3D%3E+%27%27%2C%0A%29
+ */
+require_once('WPOGBase.class.inc');
+class AssignmentGrade extends WPOGBase
 {
 	public $assignmentgradeId = '';
 
@@ -82,23 +82,22 @@ class AssignmentGrade extends POG_Base
 	
 	
 	/**
-	* Getter for some private attributes
-	* @return mixed $attribute
-	*/
+	 * Getter for some private attributes
+	 * @return mixed $attribute
+	 */
 	public function __get($attribute)
 	{
-		if (isset($this->{"_".$attribute}))
-		{
+		if (isset($this->{"_".$attribute})) {
 			return $this->{"_".$attribute};
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
 	
 	function AssignmentGrade($assignment_id='', $student_id='', $points='', $grade_id='', $comment='', $is_waived='', $due='', $assigned='')
 	{
+		global $DATABASEPDO;
+		$this->connection = $DATABASEPDO;
 		$this->assignment_id = $assignment_id;
 		$this->student_id = $student_id;
 		$this->points = $points;
@@ -111,17 +110,15 @@ class AssignmentGrade extends POG_Base
 	
 	
 	/**
-	* Gets object from database
-	* @param integer $assignmentgradeId 
-	* @return object $AssignmentGrade
-	*/
-	function Get($assignmentgradeId)
+	 * Gets object from database
+	 * @param integer $assignmentgradeId 
+	 * @return object $AssignmentGrade
+	 */
+	function get($assignmentgradeId)
 	{
-		$connection = Database::Connect();
 		$this->pog_query = "select * from `assignmentgrade` where `assignmentgradeid`='".intval($assignmentgradeId)."' LIMIT 1";
 		$cursor = Database::Reader($this->pog_query, $connection);
-		while ($row = Database::Read($cursor))
-		{
+		while ($row = Database::Read($cursor)) {
 			$this->assignmentgradeId = $row['assignmentgradeid'];
 			$this->assignment_id = $this->unescape($row['assignment_id']);
 			$this->student_id = $this->unescape($row['student_id']);
@@ -137,113 +134,26 @@ class AssignmentGrade extends POG_Base
 	
 	
 	/**
-	* Returns a sorted array of objects that match given conditions
-	* @param multidimensional array {("field", "comparator", "value"), ("field", "comparator", "value"), ...} 
-	* @param string $sortBy 
-	* @param boolean $ascending 
-	* @param int limit 
-	* @return array $assignmentgradeList
-	*/
-	function GetList($fcv_array = array(), $sortBy='', $ascending=true, $limit='')
-	{
-		$connection = Database::Connect();
-		$sqlLimit = ($limit != '' ? "LIMIT $limit" : '');
-		$this->pog_query = "select * from `assignmentgrade` ";
-		$assignmentgradeList = Array();
-		if (sizeof($fcv_array) > 0)
-		{
-			$this->pog_query .= " where ";
-			for ($i=0, $c=sizeof($fcv_array); $i<$c; $i++)
-			{
-				if (sizeof($fcv_array[$i]) == 1)
-				{
-					$this->pog_query .= " ".$fcv_array[$i][0]." ";
-					continue;
-				}
-				else
-				{
-					if ($i > 0 && sizeof($fcv_array[$i-1]) != 1)
-					{
-						$this->pog_query .= " AND ";
-					}
-					if (isset($this->pog_attribute_type[$fcv_array[$i][0]]['db_attributes']) && $this->pog_attribute_type[$fcv_array[$i][0]]['db_attributes'][0] != 'NUMERIC' && $this->pog_attribute_type[$fcv_array[$i][0]]['db_attributes'][0] != 'SET')
-					{
-						if ($GLOBALS['configuration']['db_encoding'] == 1)
-						{
-							$value = POG_Base::IsColumn($fcv_array[$i][2]) ? "BASE64_DECODE(".$fcv_array[$i][2].")" : "'".$fcv_array[$i][2]."'";
-							$this->pog_query .= "BASE64_DECODE(`".$fcv_array[$i][0]."`) ".$fcv_array[$i][1]." ".$value;
-						}
-						else
-						{
-							$value =  POG_Base::IsColumn($fcv_array[$i][2]) ? $fcv_array[$i][2] : "'".$this->escape($fcv_array[$i][2])."'";
-							$this->pog_query .= "`".$fcv_array[$i][0]."` ".$fcv_array[$i][1]." ".$value;
-						}
-					}
-					else
-					{
-						$value = POG_Base::IsColumn($fcv_array[$i][2]) ? $fcv_array[$i][2] : "'".$fcv_array[$i][2]."'";
-						$this->pog_query .= "`".$fcv_array[$i][0]."` ".$fcv_array[$i][1]." ".$value;
-					}
-				}
-			}
-		}
-		if ($sortBy != '')
-		{
-			if (isset($this->pog_attribute_type[$sortBy]['db_attributes']) && $this->pog_attribute_type[$sortBy]['db_attributes'][0] != 'NUMERIC' && $this->pog_attribute_type[$sortBy]['db_attributes'][0] != 'SET')
-			{
-				if ($GLOBALS['configuration']['db_encoding'] == 1)
-				{
-					$sortBy = "BASE64_DECODE($sortBy) ";
-				}
-				else
-				{
-					$sortBy = "$sortBy ";
-				}
-			}
-			else
-			{
-				$sortBy = "$sortBy ";
-			}
-		}
-		else
-		{
-			$sortBy = "assignmentgradeid";
-		}
-		$this->pog_query .= " order by ".$sortBy." ".($ascending ? "asc" : "desc")." $sqlLimit";
-		$thisObjectName = get_class($this);
-		$cursor = Database::Reader($this->pog_query, $connection);
-		while ($row = Database::Read($cursor))
-		{
-			$assignmentgrade = new $thisObjectName();
-			$assignmentgrade->assignmentgradeId = $row['assignmentgradeid'];
-			$assignmentgrade->assignment_id = $this->unescape($row['assignment_id']);
-			$assignmentgrade->student_id = $this->unescape($row['student_id']);
-			$assignmentgrade->points = $this->unescape($row['points']);
-			$assignmentgrade->grade_id = $this->unescape($row['grade_id']);
-			$assignmentgrade->comment = $this->unescape($row['comment']);
-			$assignmentgrade->is_waived = $this->unescape($row['is_waived']);
-			$assignmentgrade->due = $row['due'];
-			$assignmentgrade->assigned = $row['assigned'];
-			$assignmentgradeList[] = $assignmentgrade;
-		}
-		return $assignmentgradeList;
-	}
+	 * Moved. Use collection object class instead.
+	 * @return null
+	 */
+	//function getList($fcv_array = array(), $sortBy='', $ascending=true, $limit='')
+	//{
+	//}
 	
 	
 	/**
-	* Saves the object to the database
-	* @return integer $assignmentgradeId
-	*/
+	 * Saves the object to the database
+	 * @return integer $assignmentgradeId
+	 */
 	function save()
 	{
-		$connection = Database::Connect();
 		$rows = 0;
 		if ($this->assignmentgradeId!=''){
 			$this->pog_query = "select `assignmentgradeid` from `assignmentgrade` where `assignmentgradeid`='".$this->assignmentgradeId."' LIMIT 1";
 			$rows = Database::Query($this->pog_query, $connection);
 		}
-		if ($rows > 0)
-		{
+		if ($rows > 0) {
 			$this->pog_query = "update `assignmentgrade` set 
 			`assignment_id`='".$this->escape($this->assignment_id)."', 
 			`student_id`='".$this->escape($this->student_id)."', 
@@ -253,9 +163,7 @@ class AssignmentGrade extends POG_Base
 			`is_waived`='".$this->escape($this->is_waived)."', 
 			`due`='".$this->due."', 
 			`assigned`='".$this->assigned."' where `assignmentgradeid`='".$this->assignmentgradeId."'";
-		}
-		else
-		{
+		} else {
 			$this->pog_query = "insert into `assignmentgrade` (`assignment_id`, `student_id`, `points`, `grade_id`, `comment`, `is_waived`, `due`, `assigned` ) values (
 			'".$this->escape($this->assignment_id)."', 
 			'".$this->escape($this->student_id)."', 
@@ -267,8 +175,7 @@ class AssignmentGrade extends POG_Base
 			'".$this->assigned."' )";
 		}
 		$insertId = Database::InsertOrUpdate($this->pog_query, $connection);
-		if ($this->assignmentgradeId == "")
-		{
+		if ($this->assignmentgradeId == "") {
 			$this->assignmentgradeId = $insertId;
 		}
 		return $this->assignmentgradeId;
@@ -276,10 +183,10 @@ class AssignmentGrade extends POG_Base
 	
 	
 	/**
-	* Clones the object and saves it to the database
-	* @return integer $assignmentgradeId
-	*/
-	function SaveNew()
+	 * Clones the object and saves it to the database
+	 * @return integer $assignmentgradeId
+	 */
+	function saveNew()
 	{
 		$this->assignmentgradeId = '';
 		return $this->save();
@@ -287,54 +194,22 @@ class AssignmentGrade extends POG_Base
 	
 	
 	/**
-	* Deletes the object from the database
-	* @return boolean
-	*/
-	function Delete()
+	 * Deletes the object from the database
+	 * @return boolean
+	 */
+	function delete()
 	{
-		$connection = Database::Connect();
 		$this->pog_query = "delete from `assignmentgrade` where `assignmentgradeid`='".$this->assignmentgradeId."'";
 		return Database::NonQuery($this->pog_query, $connection);
 	}
 	
 	
 	/**
-	* Deletes a list of objects that match given conditions
-	* @param multidimensional array {("field", "comparator", "value"), ("field", "comparator", "value"), ...} 
-	* @param bool $deep 
-	* @return 
-	*/
-	function deleteList($fcv_array)
-	{
-		if (sizeof($fcv_array) > 0)
-		{
-			$connection = Database::Connect();
-			$pog_query = "delete from `assignmentgrade` where ";
-			for ($i=0, $c=sizeof($fcv_array); $i<$c; $i++)
-			{
-				if (sizeof($fcv_array[$i]) == 1)
-				{
-					$pog_query .= " ".$fcv_array[$i][0]." ";
-					continue;
-				}
-				else
-				{
-					if ($i > 0 && sizeof($fcv_array[$i-1]) !== 1)
-					{
-						$pog_query .= " AND ";
-					}
-					if (isset($this->pog_attribute_type[$fcv_array[$i][0]]['db_attributes']) && $this->pog_attribute_type[$fcv_array[$i][0]]['db_attributes'][0] != 'NUMERIC' && $this->pog_attribute_type[$fcv_array[$i][0]]['db_attributes'][0] != 'SET')
-					{
-						$pog_query .= "`".$fcv_array[$i][0]."` ".$fcv_array[$i][1]." '".$this->escape($fcv_array[$i][2])."'";
-					}
-					else
-					{
-						$pog_query .= "`".$fcv_array[$i][0]."` ".$fcv_array[$i][1]." '".$fcv_array[$i][2]."'";
-					}
-				}
-			}
-			return Database::NonQuery($pog_query, $connection);
-		}
-	}
+	 * Moved. Use collection object class instead.
+	 * @return null
+	 */
+	//function deleteList($fcv_array)
+	//{
+	//}
 }
 ?>
