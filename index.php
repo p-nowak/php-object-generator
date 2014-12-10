@@ -175,6 +175,7 @@ $pdoDriver = ($misc->GetVariable('pdoDriver')!=null?$misc->GetVariable('pdoDrive
 			<input type="text" id="objName" name="object" class="i" value="<?php echo(isset($objectName)?$objectName:'')?>"/>
 		</div><!-- objectname -->
 		<div class="greybox">
+			<!-- @todo: Add primaryID attrs to recreate object URL. -->
 			<span class="line" id="line_1"><img src="./images/object2.jpg" width="33" height="29" alt="object attribute"/><img src="./images/attribute.jpg" alt="object attribute" width="56" height="18"/>
 				<input  type="text" id="fieldattribute_1" name="fieldattribute_1" class="i f" value="<?php echo (isset($attributeList)&&isset($attributeList[0])?$attributeList[0]:'')?>" ></input>  &nbsp;&nbsp;<img src="./images/type.jpg" width="36" height="18" alt="object attribute"/>
 				<select class="s typ" style="display:<?php echo (!isset($typeList[0])||$misc->TypeIsKnown($typeList[0]) ?"inline": "none")?>" name="type_1" id="type_1">
@@ -183,7 +184,7 @@ $pdoDriver = ($misc->GetVariable('pdoDriver')!=null?$misc->GetVariable('pdoDrive
 						eval("include \"include/datatype.mysql.inc.php\";");
 					?>
 				</select>
-				<input style="display:<?php echo (!isset($typeList[0])||$misc->TypeIsKnown($typeList[0])?"none":"inline")?>" type="text" name="ttype_1" class="i" id="ttype_1" value="<?php echo (isset($typeList)&&isset($typeList[0])&&!$misc->TypeIsKnown($typeList[0])?$typeList[0]:'')?>"></input>
+				<input style="display:<?php echo (!isset($typeList[0])||$misc->TypeIsKnown($typeList[0])?"none":"inline")?>" type="text" name="ttype_1" class="i" id="ttype_1" value="<?php echo (isset($typeList)&&isset($typeList[0])&&!$misc->TypeIsKnown($typeList[0])?$typeList[0]:'')?>">Primary ID 1</input>
 				&nbsp;&nbsp;
 				<img src="./images/class.jpg" height="18" alt="object attribute" style="margin-left:5px; display:<?php echo (isset($typeList[0])&&$typeList[0] == "BELONGSTO" || isset($typeList[0])&&$typeList[0] == "HASMANY"?"inline":"none")?>"/ >
 				<input style="display:<?php echo (isset($typeList[0])&&$typeList[0] == "BELONGSTO" || isset($typeList[0])&&$typeList[0] == "HASMANY"?"inline":"none")?>" type="text" name="tclass_1" class="i" id="tclass_1" value="<?php echo (isset($classList)&&isset($classList[0])?$classList[0]:'')?>"></input>

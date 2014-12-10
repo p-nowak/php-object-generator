@@ -3,15 +3,15 @@
 	This SQL query will create the table to store your object. GEN FILE:/var/www/wings/pog/object_factory/class.objectphp5.1pdomysql.php
 
 	CREATE TABLE `assignmentgrade` (
-	`assignmentgradeid` int(11) NOT NULL auto_increment,
+	`assignment_id` int(11) NOT NULL auto_increment,
 	`assignment_id` INT NOT NULL,
 	`student_id` INT NOT NULL,
 	`points` INT NOT NULL,
-	`grade_id` INT NOT NULL,
-	`comment` VARCHAR(255) NOT NULL,
-	`is_waived` TINYINT NOT NULL,
+	`grade_id` VARCHAR(255) NOT NULL,
+	`comment` TINYINT NOT NULL,
+	`is_waived` DATE NOT NULL,
 	`due` DATE NOT NULL,
-	`assigned` DATE NOT NULL, PRIMARY KEY  (`assignmentgradeid`)) ENGINE=MyISAM;
+	`assigned`  NOT NULL, PRIMARY KEY  (`assignmentgradeid`)) ENGINE=MyISAM;
 */
 
 /**
@@ -43,17 +43,17 @@ class AssignmentGrade extends WPOGBase
 	public $points;
 	
 	/**
-	 * @var INT
+	 * @var VARCHAR(255)
 	 */
 	public $grade_id;
 	
 	/**
-	 * @var VARCHAR(255)
+	 * @var TINYINT
 	 */
 	public $comment;
 	
 	/**
-	 * @var TINYINT
+	 * @var DATE
 	 */
 	public $is_waived;
 	
@@ -63,22 +63,23 @@ class AssignmentGrade extends WPOGBase
 	public $due;
 	
 	/**
-	 * @var DATE
+	 * @var 
 	 */
 	public $assigned;
 	
 	public $pog_attribute_type = array(
-		"assignmentgradeId" => array('db_attributes' => array("NUMERIC", "INT")),
+		"assignment_id" => array('db_attributes' => array("NUMERIC", "INT")),
 		"assignment_id" => array('db_attributes' => array("NUMERIC", "INT")),
 		"student_id" => array('db_attributes' => array("NUMERIC", "INT")),
 		"points" => array('db_attributes' => array("NUMERIC", "INT")),
-		"grade_id" => array('db_attributes' => array("NUMERIC", "INT")),
-		"comment" => array('db_attributes' => array("TEXT", "VARCHAR", "255")),
-		"is_waived" => array('db_attributes' => array("NUMERIC", "TINYINT")),
+		"grade_id" => array('db_attributes' => array("TEXT", "VARCHAR", "255")),
+		"comment" => array('db_attributes' => array("NUMERIC", "TINYINT")),
+		"is_waived" => array('db_attributes' => array("NUMERIC", "DATE")),
 		"due" => array('db_attributes' => array("NUMERIC", "DATE")),
-		"assigned" => array('db_attributes' => array("NUMERIC", "DATE")),
+		"assigned" => array('db_attributes' => array("TEXT", "")),
 		);
 	public $pog_query;
+	protected $connection;
 	
 	
 	/**
@@ -111,23 +112,23 @@ class AssignmentGrade extends WPOGBase
 	
 	/**
 	 * Gets object from database
-	 * @param integer $assignmentgradeId 
+	 * @param integer $assignment_id 
 	 * @return object $AssignmentGrade
 	 */
-	function get($assignmentgradeId)
+	function get($assignment_id)
 	{
-		$this->pog_query = "select * from `assignmentgrade` where `assignmentgradeid`='".intval($assignmentgradeId)."' LIMIT 1";
+		$this->pog_query = "select * from `assignmentgrade` where `assignment_idid`='".intval($assignment_id)."' LIMIT 1";
 		$cursor = Database::Reader($this->pog_query, $connection);
 		while ($row = Database::Read($cursor)) {
-			$this->assignmentgradeId = $row['assignmentgradeid'];
+			$this->assignment_id = $row['assignment_id'];
 			$this->assignment_id = $this->unescape($row['assignment_id']);
 			$this->student_id = $this->unescape($row['student_id']);
 			$this->points = $this->unescape($row['points']);
 			$this->grade_id = $this->unescape($row['grade_id']);
 			$this->comment = $this->unescape($row['comment']);
-			$this->is_waived = $this->unescape($row['is_waived']);
+			$this->is_waived = $row['is_waived'];
 			$this->due = $row['due'];
-			$this->assigned = $row['assigned'];
+			$this->assigned = $this->unescape($row['assigned']);
 		}
 		return $this;
 	}
@@ -149,8 +150,8 @@ class AssignmentGrade extends WPOGBase
 	function save()
 	{
 		$rows = 0;
-		if ($this->assignmentgradeId!=''){
-			$this->pog_query = "select `assignmentgradeid` from `assignmentgrade` where `assignmentgradeid`='".$this->assignmentgradeId."' LIMIT 1";
+		if ($this->assignment_id!=''){
+			$this->pog_query = "select `assignment_id` from `assignmentgrade` where `assignmentgradeid`='".$this->assignment_id."' LIMIT 1";
 			$rows = Database::Query($this->pog_query, $connection);
 		}
 		if ($rows > 0) {
@@ -160,9 +161,9 @@ class AssignmentGrade extends WPOGBase
 			`points`='".$this->escape($this->points)."', 
 			`grade_id`='".$this->escape($this->grade_id)."', 
 			`comment`='".$this->escape($this->comment)."', 
-			`is_waived`='".$this->escape($this->is_waived)."', 
-			`due`='".$this->due."', 
-			`assigned`='".$this->assigned."' where `assignmentgradeid`='".$this->assignmentgradeId."'";
+			`is_waived`='".$this->is_waived."', 
+			`due`='".$this->due."' 
+			`assigned`='".$this->escape($this->assigned)."'where `assignmentgradeid`='".$this->assignment_id."'";
 		} else {
 			$this->pog_query = "insert into `assignmentgrade` (`assignment_id`, `student_id`, `points`, `grade_id`, `comment`, `is_waived`, `due`, `assigned` ) values (
 			'".$this->escape($this->assignment_id)."', 
@@ -175,20 +176,20 @@ class AssignmentGrade extends WPOGBase
 			'".$this->assigned."' )";
 		}
 		$insertId = Database::InsertOrUpdate($this->pog_query, $connection);
-		if ($this->assignmentgradeId == "") {
-			$this->assignmentgradeId = $insertId;
+		if ($this->assignment_id == "") {
+			$this->assignment_id = $insertId;
 		}
-		return $this->assignmentgradeId;
+		return $this->assignment_id;
 	}
 	
 	
 	/**
 	 * Clones the object and saves it to the database
-	 * @return integer $assignmentgradeId
+	 * @return integer $assignment_id
 	 */
 	function saveNew()
 	{
-		$this->assignmentgradeId = '';
+		$this->assignment_id = '';
 		return $this->save();
 	}
 	
@@ -199,7 +200,7 @@ class AssignmentGrade extends WPOGBase
 	 */
 	function delete()
 	{
-		$this->pog_query = "delete from `assignmentgrade` where `assignmentgradeid`='".$this->assignmentgradeId."'";
+		$this->pog_query = "delete from `assignmentgrade` where `assignmentgradeid`='".$this->assignment_id."'";
 		return Database::NonQuery($this->pog_query, $connection);
 	}
 	
