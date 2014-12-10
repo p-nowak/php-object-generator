@@ -298,19 +298,6 @@ $pdoDriver = ($misc->GetVariable('pdoDriver')!=null?$misc->GetVariable('pdoDrive
 	</div><!-- middle -->
 	<div class="right">
 	<img src="./images/php_code_generator_counter.gif" alt="PHP Object Generator counter"/>
-<script type="text/javascript"><!--
-google_ad_client = "pub-7832108692498114";
-google_ad_width = 160;
-google_ad_height = 600;
-google_ad_format = "160x600_as";
-google_ad_type = "text";
-google_ad_channel = "8639589622";
-google_color_border = "FFFFFF";
-google_color_bg = "FFFFFF";
-google_color_link = "716500";
-google_color_url = "B8B8B8";
-google_color_text = "CCC078";
-//--></script>
 	</div>
 </div><!-- main -->
 </body>

@@ -180,7 +180,7 @@ class Object
 		$this->string .= "\n* @author ".$GLOBALS['configuration']['author'];
 		$this->string .= "\n* @version POG ".$GLOBALS['configuration']['versionNumber'].$GLOBALS['configuration']['revisionNumber']." / ".strtoupper($this->language);
 		$this->string .= "\n* @copyright ".$GLOBALS['configuration']['copyright'];
-		$this->string .= "\n* @link http://www.phpobjectgenerator.com/?language=".$this->language."&wrapper=pog&objectName=".urlencode($this->objectName)."&attributeList=".urlencode(var_export($this->attributeList, true))."&typeList=".urlencode(var_export($this->typeList, true));;
+		$this->string .= "\n* @link ".$GLOBALS['configuration']['urlGenerator']."/?language=".$this->language."&wrapper=pog&objectName=".urlencode($this->objectName)."&attributeList=".urlencode(var_export($this->attributeList, true))."&typeList=".urlencode(var_export($this->typeList, true));;
 		$this->string .= "\n*/";
 	}
 

@@ -167,7 +167,7 @@ class ServiceClass
 
 	/**
 	 * Generates the appropriate object from `proprietary format` of @link
-	 * An @link looks like this: http://www.phpobjectgenerator.com/?language=php4&wrapper=pog&objectName=alliever&attributeList=array (  0 => 'firstName',  1 => 'lastName',  2 => 'description',  3 => 'gender',  4 => 'Country',  5 => 'over18',)&typeList=array (  0 => 'VARCHAR(255)',  1 => 'VARCHAR(255)',  2 => 'TEXT',  3 => 'enum(\\\'male\\\',\\\'female\\\')',  4 => 'enum(\\\'Mauritius\\\', \\\'Canada\\\', \\\'Singapore\\\')',  5 => 'enum(\\\'yes\\\')',)
+	 * An @link looks like this: ".$GLOBALS['configuration']['urlGenerator']."/?language=php4&wrapper=pog&objectName=alliever&attributeList=array (  0 => 'firstName',  1 => 'lastName',  2 => 'description',  3 => 'gender',  4 => 'Country',  5 => 'over18',)&typeList=array (  0 => 'VARCHAR(255)',  1 => 'VARCHAR(255)',  2 => 'TEXT',  3 => 'enum(\\\'male\\\',\\\'female\\\')',  4 => 'enum(\\\'Mauritius\\\', \\\'Canada\\\', \\\'Singapore\\\')',  5 => 'enum(\\\'yes\\\')',)
 	 * @param (urlencoded)string $link
 	 * @return base64 encoded string
 	 */
@@ -235,7 +235,7 @@ class ServiceClass
 	/**
 	 * Generates a pog 'package' which is essentially a multi-D array with folder names as keys and file contents as values.
 	 * The package can be delivered across the network, modified, and then finally zipped when the time is right.
-	 * An @link looks like this: http://www.phpobjectgenerator.com/?language=php4&wrapper=pog&objectName=alliever&attributeList=array (  0 => 'firstName',  1 => 'lastName',  2 => 'description',  3 => 'gender',  4 => 'Country',  5 => 'over18',)&typeList=array (  0 => 'VARCHAR(255)',  1 => 'VARCHAR(255)',  2 => 'TEXT',  3 => 'enum(\\\'male\\\',\\\'female\\\')',  4 => 'enum(\\\'Mauritius\\\', \\\'Canada\\\', \\\'Singapore\\\')',  5 => 'enum(\\\'yes\\\')',)
+	 * An @link looks like this: ".$GLOBALS['configuration']['urlGenerator']."/?language=php4&wrapper=pog&objectName=alliever&attributeList=array (  0 => 'firstName',  1 => 'lastName',  2 => 'description',  3 => 'gender',  4 => 'Country',  5 => 'over18',)&typeList=array (  0 => 'VARCHAR(255)',  1 => 'VARCHAR(255)',  2 => 'TEXT',  3 => 'enum(\\\'male\\\',\\\'female\\\')',  4 => 'enum(\\\'Mauritius\\\', \\\'Canada\\\', \\\'Singapore\\\')',  5 => 'enum(\\\'yes\\\')',)
 	 * @param (urlencoded)string $link
 	 * @return base64 encoded string
 	 */
@@ -321,7 +321,7 @@ class ServiceClass
 			$data = file_get_contents("../configuration_factory/configuration.php");
 		}
 		$data = str_replace('&db_encoding', $db_encoding, $data);
-		$data = str_replace('&soap', 'http://www.phpobjectgenerator.com/services/pog.wsdl', $data);
+		$data = str_replace('&soap', $GLOBALS['configuration']['urlSoap'], $data);
 		$data = str_replace('&versionNumber', $GLOBALS['configuration']['versionNumber'], $data);
 		$data = str_replace('&revisionNumber', $GLOBALS['configuration']['revisionNumber'], $data);
 		$data = str_replace('&homepage', $GLOBALS['configuration']['homepage'], $data);

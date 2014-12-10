@@ -203,7 +203,7 @@ class Object
 		$this->string .= "\n* @version POG ".$GLOBALS['configuration']['versionNumber'].$GLOBALS['configuration']['revisionNumber']." / PHP5.1 SQLITE";
 		$this->string .= "\n* @see http://www.phpobjectgenerator.com/plog/tutorials/38/pdo-sqlite";
 		$this->string .= "\n* @copyright ".$GLOBALS['configuration']['copyright'];
-		$this->string .= "\n* @link http://www.phpobjectgenerator.com/?language=php5.1&wrapper=pdo&pdoDriver=".$this->pdoDriver."&objectName=".urlencode($this->objectName)."&attributeList=".urlencode(var_export($this->attributeList, true))."&typeList=".urlencode(var_export($this->typeList, true));;
+		$this->string .= "\n* @link ".$GLOBALS['configuration']['urlGenerator']."/?language=php5.1&wrapper=pdo&pdoDriver=".$this->pdoDriver."&objectName=".urlencode($this->objectName)."&attributeList=".urlencode(var_export($this->attributeList, true))."&typeList=".urlencode(var_export($this->typeList, true));;
 		$this->string .= "\n*/";
 	}
 
