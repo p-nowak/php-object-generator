@@ -59,7 +59,7 @@ include_once "setup_misc.php";
 					$linkParts2 = split("\@link", $linkParts1[0]);
 					$link = $linkParts2[1];
 
-					$client = new soapclient(
+					$client = new nusoapclient(
 								$GLOBALS['configuration']['soap'],
 								true,
 								(isset($GLOBALS['configuration']['proxy_host'])?$GLOBALS['configuration']['proxy_host']:false),
@@ -111,7 +111,7 @@ include_once "setup_misc.php";
 	 */
 	function UpdateAvailable()
 	{
-		$client = new soapclient($GLOBALS['configuration']['soap'], true);
+		$client = new nusoapclient($GLOBALS['configuration']['soap'], true);
 		$params = array();
 		$generatorVersion = base64_decode($client->call('GetGeneratorVersion', $params));
 		if ($generatorVersion != $GLOBALS['configuration']['versionNumber'].$GLOBALS['configuration']['revisionNumber'])
