@@ -47,7 +47,7 @@ class Object
 		}
 		$this->string .= "\nclass ".$this->objectName." extends WPOGBase\n{\n\t";
 		$this->string.="public \$".strtolower($this->objectName)."Id = '';\n\n\t";
-		$x = 1;
+		$x = 0;
 		foreach ($this->attributeList as $attribute)
 		{
 			if ($this->typeList[$x] == "BELONGSTO")
@@ -80,8 +80,7 @@ class Object
 		//	create attribute => type array map
 		//	needed for setup
 		$this->string .= "public \$pog_attribute_type = array(\n\t\t";
-		$this->string .= "\"".strtolower($this->attributeList[0])."\" => array('db_attributes' => array(\"NUMERIC\", \"INT\")),\n\t\t";
-		$x = 1;
+		$x = 0;
 		foreach ($this->attributeList as $attribute)
 		{
 			$this->string .= "\"".$attribute."\" => array('db_attributes' => array(\"".$misc->InterpretType($this->typeList[$x])."\", \"".$misc->getAttributeType($this->typeList[$x])."\"".(($misc->InterpretLength($this->typeList[$x]) != null) ?  ', "'.$misc->InterpretLength($this->typeList[$x]).'"' : '').")),\n\t\t";
@@ -143,7 +142,7 @@ class Object
 	function CreateSQLQuery()
 	{
 		$this->sql .= "\tCREATE TABLE `".strtolower($this->objectName)."` (\n\t`".strtolower($this->attributeList[0])."` int(11) NOT NULL auto_increment,";
-		$x=1;
+		$x=0;
 		$indexesToBuild = array();
 		foreach ($this->attributeList as $attribute)
 		{
@@ -162,7 +161,7 @@ class Object
 		{
 			$this->sql .= " INDEX(".implode(',', $indexesToBuild)."),";
 		}
-		$this->sql .= " PRIMARY KEY  (`".strtolower($this->objectName)."id`)) ENGINE=MyISAM;";
+		$this->sql .= " PRIMARY KEY  (`".strtolower($this->objectName)."id`)) ENGINE=Innodb;";
 	}
 
 	// -------------------------------------------------------------
@@ -228,6 +227,7 @@ class Object
 		{
 			$this->string .= "\tfunction save()\n\t{";
 		}
+		
 		$this->string .= "\n\t\t\$rows = 0;";
 		$this->string .= "\n\t\tif (\$this->".strtolower($this->attributeList[0])."!=''){";
 		$this->string .= "\n\t\t\t\$this->pog_query = \"select `".strtolower($this->attributeList[0])."` from `".strtolower($this->objectName)."` where `".strtolower($this->objectName)."id`='\".\$this->".strtolower($this->attributeList[0]).".\"' LIMIT 1\";";
@@ -249,16 +249,16 @@ class Object
 					{
 						if ($this->typeList[$x] == "BELONGSTO")
 						{
-							$this->string .= "\n\t\t\t`".strtolower($attribute)."id`='\".\$this->".strtolower($this->attributeList[0]).".\"' ";
+							$this->string .= "\n\t\t\t\t`".strtolower($attribute)."id`='\".\$this->".strtolower($this->attributeList[0]).".\"' ";
 						}
 						else
 						{
-							$this->string .= "\n\t\t\t`".strtolower($attribute)."`='\".\$this->$attribute.\"' ";
+							$this->string .= "\n\t\t\t\t`".strtolower($attribute)."`='\".\$this->$attribute.\"' ";
 						}
 					}
 					else
 					{
-						$this->string .= "\n\t\t\t`".strtolower($attribute)."`='\".\$this->escape(\$this->$attribute).\"' ";
+						$this->string .= "\n\t\t\t\t`".strtolower($attribute)."`='\".\$this->Escape(\$this->$attribute).\"' ";
 					}
 				}
 				else
@@ -267,16 +267,16 @@ class Object
 					{
 						if ($this->typeList[$x] == "BELONGSTO")
 						{
-							$this->string .= "\n\t\t\t`".strtolower($attribute)."id`='\".\$this->".strtolower($this->attributeList[0]).".\"', ";
+							$this->string .= "\n\t\t\t\t`".strtolower($attribute)."ID`='\".\$this->".strtolower($attribute).".\"', ";
 						}
 						else
 						{
-							$this->string .= "\n\t\t\t`".strtolower($attribute)."`='\".\$this->$attribute.\"', ";
+							$this->string .= "\n\t\t\t\t`".strtolower($attribute)."`='\".\$this->$attribute.\"', ";
 						}
 					}
 					else
 					{
-						$this->string .= "\n\t\t\t`".strtolower($attribute)."`='\".\$this->escape(\$this->$attribute).\"', ";
+						$this->string .= "\n\t\t\t\t`".strtolower($attribute)."`='\".\$this->Escape(\$this->$attribute).\"', ";
 					}
 				}
 			}
@@ -286,7 +286,7 @@ class Object
 		{
 			$this->string = substr($this->string, 0, strlen($this->string) - 2);
 		}
-		$this->string .= "where `".strtolower($this->objectName)."id`='\".\$this->".strtolower($this->attributeList[0]).".\"'\";";
+		$this->string .= "where `".strtolower($this->attributeList[0])."`='\".\$this->".strtolower($this->attributeList[0]).".\"'\";";
 		$this->string .= "\n\t\t} else {";
 		$this->string .= "\n\t\t\t\$this->pog_query = \"insert into `".strtolower($this->objectName)."` (";
 		$y=0;
@@ -298,7 +298,7 @@ class Object
 				{
 					if ($this->typeList[$y] == "BELONGSTO")
 					{
-						$this->string .= "`".strtolower($attribute)."id` ";
+						$this->string .= "`".strtolower($attribute)."ID` ";
 					}
 					else
 					{
@@ -309,7 +309,7 @@ class Object
 				{
 					if ($this->typeList[$y] == "BELONGSTO")
 					{
-						$this->string .= "`".strtolower($attribute)."id`, ";
+						$this->string .= "`".strtolower($attribute)."ID`, ";
 					}
 					else
 					{
@@ -335,7 +335,7 @@ class Object
 					{
 						if ($this->typeList[$z] == "BELONGSTO")
 						{
-							$this->string .= "\n\t\t\t'\".\$this->".strtolower($this->attributeList[0]).".\"' ";
+							$this->string .= "\n\t\t\t'\".\$this->".strtolower($attribute).".\"' ";
 						}
 						else
 						{
@@ -344,7 +344,7 @@ class Object
 					}
 					else
 					{
-						$this->string .= "\n\t\t\t'\".\$this->escape(\$this->$attribute).\"' ";
+						$this->string .= "\n\t\t\t'\".\$this->Escape(\$this->$attribute).\"' ";
 					}
 				}
 				else
@@ -353,7 +353,7 @@ class Object
 					{
 						if ($this->typeList[$z] == "BELONGSTO")
 						{
-							$this->string .= "\n\t\t\t'\".\$this->".strtolower($this->attributeList[0]).".\"', ";
+							$this->string .= "\n\t\t\t'\".\$this->".strtolower($attribute).".\"', ";
 						}
 						else
 						{
@@ -362,7 +362,7 @@ class Object
 					}
 					else
 					{
-						$this->string .= "\n\t\t\t'\".\$this->escape(\$this->$attribute).\"', ";
+						$this->string .= "\n\t\t\t'\".\$this->Escape(\$this->$attribute).\"', ";
 					}
 				}
 			}
@@ -518,11 +518,21 @@ class Object
 		$this->string .= "\n\t".$this->separator."\n\t";
 		$this->string .= $this->CreateComments("Gets object from database",array("integer \$".strtolower($this->attributeList[0])),"object \$".$this->objectName);
 		$this->string .="\tfunction get(\$".strtolower($this->attributeList[0]).")\n\t{";
-		$this->string .= "\n\t\t\$this->pog_query = \"select * from `".strtolower($this->objectName)."` where `".strtolower($this->attributeList[0])."id`='\".intval(\$".strtolower($this->attributeList[0]).").\"' LIMIT 1\";";
+		$this->string .= "\n\t\t\$this->pog_query = \"select * from `".strtolower($this->objectName)."` where `".strtolower($this->attributeList[0])."`='\".intval(\$".strtolower($this->attributeList[0]).").\"' LIMIT 1\";";
+		
+		$this->string .= "\n\t\t\$this->attributeList[0] = (int) \$this->attributeList[0];";
+		$this->string .= "\n\t\tif ( \$this->attributeList[0] == 0 ) {";
+		$this->string .= "\n\t\tthrow new Exception( __FILE__ .\" : \".  __LINE__ .\" : Invalid ID: \$this->attributeList[0].\");";
+		$this->string .= "\n\t\t}";
+		$this->string .= "\n";
+		
+		$this->string .= "\n\t\tif ( 0 == Database::Query(\$this->pog_query, \$this->connection) ) {";
+		$this->string .= "\n\t\t\tthrow new Exception( __FILE__ .\" : \".  __LINE__ .\" : Query \". \$this->pog_query .\"  failed. Is the table is empty?\");";
+		$this->string .= "\n\t\t}";
+		$this->string .= "\n";
 		$this->string .= "\n\t\t\$cursor = Database::Reader(\$this->pog_query, \$connection);";
 		$this->string .= "\n\t\twhile (\$row = Database::Read(\$cursor)) {";
-		$this->string .= "\n\t\t\t\$this->".strtolower($this->attributeList[0])." = \$row['".strtolower($this->attributeList[0])."'];";
-		$x = 1;
+		$x = 0;
 		foreach ($this->attributeList as $attribute)
 		{
 			if ($this->typeList[$x] != "HASMANY" && $this->typeList[$x] != "JOIN")
@@ -540,7 +550,7 @@ class Object
 				}
 				else
 				{
-					$this->string .= "\n\t\t\t\$this->".$attribute." = \$this->unescape(\$row['".strtolower($attribute)."']);";
+					$this->string .= "\n\t\t\t\$this->".$attribute." = \$this->Unescape(\$row['".strtolower($attribute)."']);";
 				}
 			}
 			$x++;
@@ -548,6 +558,41 @@ class Object
 		$this->string .= "\n\t\t}";
 		$this->string .= "\n\t\treturn \$this;";
 		$this->string .= "\n\t}";
+	}
+
+	// -------------------------------------------------------------
+	function CreateGetFunctions()
+	{
+		foreach ($this->attributeList as $attribute)
+		{
+			$this->string .= "\n\t".$this->separator."\n\t";
+			$this->string .= $this->CreateComments("Gets properties",array("integer \$".strtolower($this->attributeList[0])),"object \$".$this->objectName);
+			$this->string .="\tfunction get_".$attribute."(\$".strtolower($this->attributeList[0]).")\n\t{";
+			//$this->string .= "\n\t\twhile (\$row = Database::Read(\$cursor)) {";
+			$x = 0;
+			//if ($this->typeList[$x] != "HASMANY" && $this->typeList[$x] != "JOIN")
+			//{
+			//	if (strtolower(substr($this->typeList[$x],0,4)) == "enum" || strtolower(substr($this->typeList[$x],0,3)) == "set" || strtolower(substr($this->typeList[$x],0,4)) == "date" || strtolower(substr($this->typeList[$x],0,4)) == "time" || $this->typeList[$x] == "BELONGSTO")
+			//	{
+			//		if ($this->typeList[$x] == "BELONGSTO")
+			//		{
+			//			$this->string .= "\n\t\t\$this->".strtolower($this->attributeList[0])." = \$row['".strtolower($this->attributeList[0])."'];";
+			//		}
+			//		else
+			//		{
+			//			$this->string .= "\n\t\t\$this->".$attribute." = \$row['".strtolower($attribute)."'];";
+			//		}
+			//	}
+			//	else
+			//	{
+			//		$this->string .= "\n\t\t\$this->".$attribute." = \$this->Unescape(\$row['".strtolower($attribute)."']);";
+			//	}
+			}
+			$x++;
+			$this->string .= "\n\t";
+			$this->string .= "\n\t\treturn \$this->".$attribute.";";
+			$this->string .= "\n\t}";
+		}
 	}
 
 	// -------------------------------------------------------------
@@ -562,7 +607,6 @@ class Object
 
 
 	// Relations {1-1, 1-Many, Many-1} functions
-
 	// -------------------------------------------------------------
 	function CreateAddChildFunction($child)
 	{
@@ -693,7 +737,7 @@ class Object
 		$this->string .= "\n\t\t\t\t\t\t\t\$value = POG_Base::IsColumn(\$fcv_array[\$i][2]) ? \"BASE64_DECODE(\".\$fcv_array[\$i][2].\")\" : \"'\".\$fcv_array[\$i][2].\"'\";";
 		$this->string .= "\n\t\t\t\t\t\t\t\$this->pog_query .= \"BASE64_DECODE(`\".\$fcv_array[\$i][0].\"`) \".\$fcv_array[\$i][1].\" \".\$value;";
 		$this->string .= "\n\t\t} else {";
-		$this->string .= "\n\t\t\t\t\t\t\t\$value =  POG_Base::IsColumn(\$fcv_array[\$i][2]) ? \$fcv_array[\$i][2] : \"'\".\$this->escape(\$fcv_array[\$i][2]).\"'\";";
+		$this->string .= "\n\t\t\t\t\t\t\t\$value =  POG_Base::IsColumn(\$fcv_array[\$i][2]) ? \$fcv_array[\$i][2] : \"'\".\$this->Escape(\$fcv_array[\$i][2]).\"'\";";
 		$this->string .= "\n\t\t\t\t\t\t\t\$this->pog_query .= \"a.`\".\$fcv_array[\$i][0].\"` \".\$fcv_array[\$i][1].\" \".\$value;";
 		$this->string .= "\n\t\t\t\t\t\t}";
 		$this->string .= "\n\t\t} else {";
@@ -726,7 +770,7 @@ class Object
 		$this->string .= "\n\t\t\t\t\t\t\$".strtolower($sibling)."->{strtolower(\$attribute_name).'Id'} = \$rows[strtolower(\$attribute_name).'id'];";
 		$this->string .= "\n\t\t\t\t\t\tcontinue;";
 		$this->string .= "\n\t\t\t\t\t}";
-		$this->string .= "\n\t\t\t\t\t\$".strtolower($sibling)."->{\$attribute_name} = \$this->unescape(\$rows[strtolower(\$attribute_name)]);";
+		$this->string .= "\n\t\t\t\t\t\$".strtolower($sibling)."->{\$attribute_name} = \$this->Escape(\$rows[strtolower(\$attribute_name)]);";
 		$this->string .= "\n\t\t\t\t}";
 		$this->string .= "\n\t\t\t}";
 		$this->string .= "\n\t\t\t\$".strtolower($sibling)."List[] = $".strtolower($sibling).";";

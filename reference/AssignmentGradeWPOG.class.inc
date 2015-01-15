@@ -117,18 +117,26 @@ class AssignmentGrade extends WPOGBase
 	 */
 	function get($assignment_id)
 	{
-		$this->pog_query = "select * from `assignmentgrade` where `assignment_idid`='".intval($assignment_id)."' LIMIT 1";
+		$this->pog_query = "select * from `assignmentgrade` where `assignment_id`='".intval($assignment_id)."' LIMIT 1";
+		$this->attributeList[0] = (int) $this->attributeList[0];
+		if ( $this->attributeList[0] == 0 ) {
+		throw new Exception( __FILE__ ." : ".  __LINE__ ." : Invalid ID: $this->attributeList[0].");
+		}
+
+		if ( 0 == Database::Query($this->pog_query, $this->connection) ) {
+			throw new Exception( __FILE__ ." : ".  __LINE__ ." : Query ". $this->pog_query ."  failed. Is the table is empty?");
+		}
+
 		$cursor = Database::Reader($this->pog_query, $connection);
 		while ($row = Database::Read($cursor)) {
-			$this->assignment_id = $row['assignment_id'];
-			$this->assignment_id = $this->unescape($row['assignment_id']);
-			$this->student_id = $this->unescape($row['student_id']);
-			$this->points = $this->unescape($row['points']);
-			$this->grade_id = $this->unescape($row['grade_id']);
-			$this->comment = $this->unescape($row['comment']);
-			$this->is_waived = $row['is_waived'];
+			$this->assignment_id = $this->Unescape($row['assignment_id']);
+			$this->student_id = $this->Unescape($row['student_id']);
+			$this->points = $this->Unescape($row['points']);
+			$this->grade_id = $this->Unescape($row['grade_id']);
+			$this->comment = $this->Unescape($row['comment']);
+			$this->is_waived = $this->Unescape($row['is_waived']);
 			$this->due = $row['due'];
-			$this->assigned = $this->unescape($row['assigned']);
+			$this->assigned = $row['assigned'];
 		}
 		return $this;
 	}
@@ -156,22 +164,22 @@ class AssignmentGrade extends WPOGBase
 		}
 		if ($rows > 0) {
 			$this->pog_query = "update `assignmentgrade` set 
-			`assignment_id`='".$this->escape($this->assignment_id)."', 
-			`student_id`='".$this->escape($this->student_id)."', 
-			`points`='".$this->escape($this->points)."', 
-			`grade_id`='".$this->escape($this->grade_id)."', 
-			`comment`='".$this->escape($this->comment)."', 
-			`is_waived`='".$this->is_waived."', 
-			`due`='".$this->due."' 
-			`assigned`='".$this->escape($this->assigned)."'where `assignmentgradeid`='".$this->assignment_id."'";
+				`assignment_id`='".$this->Escape($this->assignment_id)."', 
+				`student_id`='".$this->Escape($this->student_id)."', 
+				`points`='".$this->Escape($this->points)."', 
+				`grade_id`='".$this->Escape($this->grade_id)."', 
+				`comment`='".$this->Escape($this->comment)."', 
+				`is_waived`='".$this->is_waived."', 
+				`due`='".$this->due."' 
+				`assigned`='".$this->Escape($this->assigned)."'where `assignment_id`='".$this->assignment_id."'";
 		} else {
 			$this->pog_query = "insert into `assignmentgrade` (`assignment_id`, `student_id`, `points`, `grade_id`, `comment`, `is_waived`, `due`, `assigned` ) values (
-			'".$this->escape($this->assignment_id)."', 
-			'".$this->escape($this->student_id)."', 
-			'".$this->escape($this->points)."', 
-			'".$this->escape($this->grade_id)."', 
-			'".$this->escape($this->comment)."', 
-			'".$this->escape($this->is_waived)."', 
+			'".$this->Escape($this->assignment_id)."', 
+			'".$this->Escape($this->student_id)."', 
+			'".$this->Escape($this->points)."', 
+			'".$this->Escape($this->grade_id)."', 
+			'".$this->Escape($this->comment)."', 
+			'".$this->Escape($this->is_waived)."', 
 			'".$this->due."', 
 			'".$this->assigned."' )";
 		}
