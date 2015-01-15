@@ -183,7 +183,7 @@ class Object
 	// -------------------------------------------------------------
 	function CreatePreface()
 	{
-		$this->string .= "/*\n\tThis SQL query will create the table to store your object. GEN FILE:".__FILE__."\n";
+		$this->string .= "/*\n\tThis SQL query will create the table to store your object.\n";
 		$this->CreateSQLQuery();
 		$this->string .= "\n".$this->sql."\n*/";
 		$this->string .= "\n\n/**";
@@ -560,40 +560,40 @@ class Object
 		$this->string .= "\n\t}";
 	}
 
-	// -------------------------------------------------------------
-	function CreateGetFunctions()
-	{
-		foreach ($this->attributeList as $attribute)
-		{
-			$this->string .= "\n\t".$this->separator."\n\t";
-			$this->string .= $this->CreateComments("Gets properties",array("integer \$".strtolower($this->attributeList[0])),"object \$".$this->objectName);
-			$this->string .="\tfunction get_".$attribute."(\$".strtolower($this->attributeList[0]).")\n\t{";
-			//$this->string .= "\n\t\twhile (\$row = Database::Read(\$cursor)) {";
-			$x = 0;
-			//if ($this->typeList[$x] != "HASMANY" && $this->typeList[$x] != "JOIN")
-			//{
-			//	if (strtolower(substr($this->typeList[$x],0,4)) == "enum" || strtolower(substr($this->typeList[$x],0,3)) == "set" || strtolower(substr($this->typeList[$x],0,4)) == "date" || strtolower(substr($this->typeList[$x],0,4)) == "time" || $this->typeList[$x] == "BELONGSTO")
-			//	{
-			//		if ($this->typeList[$x] == "BELONGSTO")
-			//		{
-			//			$this->string .= "\n\t\t\$this->".strtolower($this->attributeList[0])." = \$row['".strtolower($this->attributeList[0])."'];";
-			//		}
-			//		else
-			//		{
-			//			$this->string .= "\n\t\t\$this->".$attribute." = \$row['".strtolower($attribute)."'];";
-			//		}
-			//	}
-			//	else
-			//	{
-			//		$this->string .= "\n\t\t\$this->".$attribute." = \$this->Unescape(\$row['".strtolower($attribute)."']);";
-			//	}
-			}
-			$x++;
-			$this->string .= "\n\t";
-			$this->string .= "\n\t\treturn \$this->".$attribute.";";
-			$this->string .= "\n\t}";
-		}
-	}
+	//// -------------------------------------------------------------
+	//function CreateGetFunctions()
+	//{
+	//	foreach ($this->attributeList as $attribute)
+	//	{
+	//		$this->string .= "\n\t".$this->separator."\n\t";
+	//		$this->string .= $this->CreateComments("Gets properties",array("integer \$".strtolower($this->attributeList[0])),"object \$".$this->objectName);
+	//		$this->string .="\tfunction get_".$attribute."(\$".strtolower($this->attributeList[0]).")\n\t{";
+	//		//$this->string .= "\n\t\twhile (\$row = Database::Read(\$cursor)) {";
+	//		$x = 0;
+	//		//if ($this->typeList[$x] != "HASMANY" && $this->typeList[$x] != "JOIN")
+	//		//{
+	//		//	if (strtolower(substr($this->typeList[$x],0,4)) == "enum" || strtolower(substr($this->typeList[$x],0,3)) == "set" || strtolower(substr($this->typeList[$x],0,4)) == "date" || strtolower(substr($this->typeList[$x],0,4)) == "time" || $this->typeList[$x] == "BELONGSTO")
+	//		//	{
+	//		//		if ($this->typeList[$x] == "BELONGSTO")
+	//		//		{
+	//		//			$this->string .= "\n\t\t\$this->".strtolower($this->attributeList[0])." = \$row['".strtolower($this->attributeList[0])."'];";
+	//		//		}
+	//		//		else
+	//		//		{
+	//		//			$this->string .= "\n\t\t\$this->".$attribute." = \$row['".strtolower($attribute)."'];";
+	//		//		}
+	//		//	}
+	//		//	else
+	//		//	{
+	//		//		$this->string .= "\n\t\t\$this->".$attribute." = \$this->Unescape(\$row['".strtolower($attribute)."']);";
+	//		//	}
+	//		}
+	//		$x++;
+	//		$this->string .= "\n\t";
+	//		$this->string .= "\n\t\treturn \$this->".$attribute.";";
+	//		$this->string .= "\n\t}";
+	//	}
+	//}
 
 	// -------------------------------------------------------------
 	function CreateGetListFunction()

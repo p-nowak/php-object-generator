@@ -63,7 +63,7 @@ if (IsPostback())
 
 if ($GLOBALS['configuration']['soapEngine'] == "nusoap")
 {
-		$client = new nusoapclient($GLOBALS['configuration']['soap'], true);
+		$client = new soapclient($GLOBALS['configuration']['soap'], true);
 		$params = array(
 			    'objectName' 	=> $objectName,
 			    'attributeList' => $attributeList,

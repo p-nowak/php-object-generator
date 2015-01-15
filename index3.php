@@ -18,7 +18,7 @@ if (isset($_SESSION['objectString']))
 
 	if ($GLOBALS['configuration']['soapEngine'] == "nusoap")
 	{
-		$client = new nusoapclient($GLOBALS['configuration']['soap'], true);
+		$client = new soapclient($GLOBALS['configuration']['soap'], true);
 		$attributeList = unserialize($_SESSION['attributeList']);
 		$typeList = unserialize($_SESSION['typeList']);
 		$params = array(
