@@ -89,7 +89,8 @@ class ServiceClass
 		$object->CreateMagicGetterFunction();
 		$object->CreateConstructor();
 		$object->CreateGetFunction();
-//		$object->CreateGetFunctions();
+		$object->CreateSetFunctions();
+		$object->CreateGetFunctions();
 		$object->CreateGetListFunction();
 		$object->CreateSaveFunction((in_array("HASMANY", $typeList) || in_array("JOIN", $typeList)));
 		$object->CreateSaveNewFunction((in_array("HASMANY", $typeList) || in_array("JOIN", $typeList)));

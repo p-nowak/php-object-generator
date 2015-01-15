@@ -46,7 +46,7 @@ class Object
 			}
 		}
 		$this->string .= "\nclass ".$this->objectName." extends WPOGBase\n{\n\t";
-		$this->string.="public \$".strtolower($this->objectName)."Id = '';\n\n\t";
+		$this->string.="private \$".strtolower($this->objectName)."Id = '';\n\n\t";
 		$x = 0;
 		foreach ($this->attributeList as $attribute)
 		{
@@ -71,7 +71,7 @@ class Object
 				$this->string .="/**\n\t";
 				$this->string .=" * @var ".stripcslashes($this->typeList[$x])."\n\t";
 				$this->string .=" */\n\t";
-				$this->string.="public $".$attribute.";\n\t";
+				$this->string.="protected $".$attribute.";\n\t";
 				$this->string.="\n\t";
 			}
 			$x++;
@@ -198,7 +198,6 @@ class Object
 
 
 	// Essential functions
-
 	// -------------------------------------------------------------
 	function CreateMagicGetterFunction()
 	{
@@ -212,7 +211,7 @@ class Object
 		$this->string .= "\n\t\t}";
 		$this->string .= "\n\t}";
 	}
-
+	
 	// -------------------------------------------------------------
 	function CreateSaveFunction($deep = false)
 	{
@@ -559,42 +558,39 @@ class Object
 		$this->string .= "\n\t\treturn \$this;";
 		$this->string .= "\n\t}";
 	}
-
-	//// -------------------------------------------------------------
-	//function CreateGetFunctions()
-	//{
-	//	foreach ($this->attributeList as $attribute)
-	//	{
-	//		$this->string .= "\n\t".$this->separator."\n\t";
-	//		$this->string .= $this->CreateComments("Gets properties",array("integer \$".strtolower($this->attributeList[0])),"object \$".$this->objectName);
-	//		$this->string .="\tfunction get_".$attribute."(\$".strtolower($this->attributeList[0]).")\n\t{";
-	//		//$this->string .= "\n\t\twhile (\$row = Database::Read(\$cursor)) {";
-	//		$x = 0;
-	//		//if ($this->typeList[$x] != "HASMANY" && $this->typeList[$x] != "JOIN")
-	//		//{
-	//		//	if (strtolower(substr($this->typeList[$x],0,4)) == "enum" || strtolower(substr($this->typeList[$x],0,3)) == "set" || strtolower(substr($this->typeList[$x],0,4)) == "date" || strtolower(substr($this->typeList[$x],0,4)) == "time" || $this->typeList[$x] == "BELONGSTO")
-	//		//	{
-	//		//		if ($this->typeList[$x] == "BELONGSTO")
-	//		//		{
-	//		//			$this->string .= "\n\t\t\$this->".strtolower($this->attributeList[0])." = \$row['".strtolower($this->attributeList[0])."'];";
-	//		//		}
-	//		//		else
-	//		//		{
-	//		//			$this->string .= "\n\t\t\$this->".$attribute." = \$row['".strtolower($attribute)."'];";
-	//		//		}
-	//		//	}
-	//		//	else
-	//		//	{
-	//		//		$this->string .= "\n\t\t\$this->".$attribute." = \$this->Unescape(\$row['".strtolower($attribute)."']);";
-	//		//	}
-	//		}
-	//		$x++;
-	//		$this->string .= "\n\t";
-	//		$this->string .= "\n\t\treturn \$this->".$attribute.";";
-	//		$this->string .= "\n\t}";
-	//	}
-	//}
-
+	
+	// -------------------------------------------------------------
+	function CreateGetFunctions()
+	{
+		foreach ($this->attributeList as $attribute)
+		{
+			$this->string .= "\n\t".$this->separator."\n\t";
+			$this->string .= $this->CreateComments("Get property",array("integer \$".strtolower($this->attributeList[0])),"object \$".$this->objectName);
+			$this->string .="\tfunction get_".$attribute."(\$".strtolower($this->attributeList[0]).")\n\t{";
+			//$this->string .= "\n\t\twhile (\$row = Database::Read(\$cursor)) {";
+			$x = 0;
+			$x++;
+			$this->string .= "\n\t\treturn \$this->".$attribute.";";
+			$this->string .= "\n\t}";
+		}
+	}
+	
+	// -------------------------------------------------------------
+	function CreateSetFunctions()
+	{
+		$x = 0;
+		foreach ($this->attributeList as $attribute)
+		{
+			$this->string .= "\n\t".$this->separator."\n\t";
+			$this->string .= $this->CreateComments("Set property", array($typeList[$x] . " \$". $attribute), "bool true on success. false on error.");
+			$this->string .="\tfunction set_".$attribute. "(\$". $attribute . " = null)\n\t{";
+			$this->string .= "\n\t\t\$this->".$attribute." = \$". $attribute ;
+			$this->string .= "\n\t\treturn true;";
+			$this->string .= "\n\t}";
+			$x++;
+		}
+	}
+	
 	// -------------------------------------------------------------
 	function CreateGetListFunction()
 	{
