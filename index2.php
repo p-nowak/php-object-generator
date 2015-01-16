@@ -27,8 +27,8 @@ if (IsPostback())
 		{
 			$attributeList[] = GetVariable(('fieldattribute_'.$i));
 			$z++;
-
 		}
+		
 		if (GetVariable(('type_'.$i)) != null && $z==$i)
 		{
 			if (GetVariable(('type_'.$i)) != "OTHER"  && GetVariable(('ttype_'.$i)) == null)

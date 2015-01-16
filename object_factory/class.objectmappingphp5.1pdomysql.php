@@ -53,7 +53,7 @@ class ObjectMap
 		$this->sql .= "\tCREATE TABLE `".strtolower($this->object1).strtolower($this->object2)."map` (";
 		$this->sql .= "\n\t`".strtolower($this->object1)."id` int(11) NOT NULL,";
 		$this->sql .= "\n\t`".strtolower($this->object2)."id` int(11) NOT NULL,";
-		$this->sql .= "INDEX(`".strtolower($this->object1)."id`, `".strtolower($this->object2)."id`)) ENGINE=MyISAM;";
+		$this->sql .= "INDEX(`".strtolower($this->object1)."id`, `".strtolower($this->object2)."id`)) ENGINE=Innodb;";
 	}
 
 	// -------------------------------------------------------------

@@ -1,89 +1,69 @@
 <?php
 /*
-	This SQL query will create the table to store your object. GEN FILE:/var/www/wings/pog/object_factory/class.objectphp5.1pdomysql.php
+	This SQL query will create the table to store your object.
 
-	CREATE TABLE `assignmentgrade` (
-	`assignment_id` int(11) NOT NULL auto_increment,
-	`assignment_id` INT NOT NULL,
+	CREATE TABLE `slp_approval` (
+	`id` int(11) NOT NULL auto_increment,
+	`id` INT NOT NULL,
 	`student_id` INT NOT NULL,
-	`points` INT NOT NULL,
-	`grade_id` VARCHAR(255) NOT NULL,
-	`comment` TINYINT NOT NULL,
-	`is_waived` DATE NOT NULL,
-	`due` DATE NOT NULL,
-	`assigned`  NOT NULL, PRIMARY KEY  (`assignmentgradeid`)) ENGINE=MyISAM;
+	`approver_id` INT NOT NULL,
+	`year` SMALLINT NOT NULL,
+	`approved` DATETIME NOT NULL, PRIMARY KEY  (`idid`)) ENGINE=Innodb;
 */
 
 /**
- * <b>AssignmentGrade</b> class with integrated CRUD methods.
+ * <b>slp_approval</b> class with integrated CRUD methods.
  * @author Php Object Generator
  * @version POG 3.3 / PHP5.1 MYSQL
  * @see http://www.phpobjectgenerator.com/plog/tutorials/45/pdo-mysql
  * @copyright Free for personal & commercial use. (Offered under the BSD license)
- * @link https://wingsdev.local/wings/pog/?language=php5.1&wrapper=pdo&pdoDriver=mysql&objectName=AssignmentGrade&attributeList=array+%28%0A++0+%3D%3E+%27assignment_id%27%2C%0A++1+%3D%3E+%27student_id%27%2C%0A++2+%3D%3E+%27points%27%2C%0A++3+%3D%3E+%27grade_id%27%2C%0A++4+%3D%3E+%27comment%27%2C%0A++5+%3D%3E+%27is_waived%27%2C%0A++6+%3D%3E+%27due%27%2C%0A++7+%3D%3E+%27assigned%27%2C%0A%29&typeList=array%2B%2528%250A%2B%2B0%2B%253D%253E%2B%2527INT%2527%252C%250A%2B%2B1%2B%253D%253E%2B%2527INT%2527%252C%250A%2B%2B2%2B%253D%253E%2B%2527INT%2527%252C%250A%2B%2B3%2B%253D%253E%2B%2527INT%2527%252C%250A%2B%2B4%2B%253D%253E%2B%2527VARCHAR%2528255%2529%2527%252C%250A%2B%2B5%2B%253D%253E%2B%2527TINYINT%2527%252C%250A%2B%2B6%2B%253D%253E%2B%2527DATE%2527%252C%250A%2B%2B7%2B%253D%253E%2B%2527DATE%2527%252C%250A%2529&classList=array+%28%0A++0+%3D%3E+%27%27%2C%0A++1+%3D%3E+%27%27%2C%0A++2+%3D%3E+%27%27%2C%0A++3+%3D%3E+%27%27%2C%0A++4+%3D%3E+%27%27%2C%0A++5+%3D%3E+%27%27%2C%0A++6+%3D%3E+%27%27%2C%0A++7+%3D%3E+%27%27%2C%0A%29
+ * @link https://wingsdev.local/wings/pog/?language=php5.1&wrapper=pdo&pdoDriver=mysql&objectName=slp_approval&attributeList=array+%28%0A++0+%3D%3E+%27id%27%2C%0A++1+%3D%3E+%27student_id%27%2C%0A++2+%3D%3E+%27approver_id%27%2C%0A++3+%3D%3E+%27year%27%2C%0A++4+%3D%3E+%27approved%27%2C%0A%29&typeList=array%2B%2528%250A%2B%2B0%2B%253D%253E%2B%2527INT%2527%252C%250A%2B%2B1%2B%253D%253E%2B%2527INT%2527%252C%250A%2B%2B2%2B%253D%253E%2B%2527INT%2527%252C%250A%2B%2B3%2B%253D%253E%2B%2527SMALLINT%2527%252C%250A%2B%2B4%2B%253D%253E%2B%2527DATETIME%2527%252C%250A%2529&classList=array+%28%0A++0+%3D%3E+%27%27%2C%0A++1+%3D%3E+%27%27%2C%0A++2+%3D%3E+%27%27%2C%0A++3+%3D%3E+%27%27%2C%0A++4+%3D%3E+%27%27%2C%0A%29
  */
 require_once('WPOGBase.class.inc');
-class AssignmentGrade extends WPOGBase
+class slp_approval extends WPOGBase
 {
-	public $assignmentgradeId = '';
-
 	/**
 	 * @var INT
 	 */
-	public $assignment_id;
-	
-	/**
-	 * @var INT
-	 */
-	public $student_id;
+	protected $id;
 	
 	/**
 	 * @var INT
 	 */
-	public $points;
+	protected $student_id;
 	
 	/**
-	 * @var VARCHAR(255)
+	 * @var INT
 	 */
-	public $grade_id;
+	protected $approver_id;
 	
 	/**
-	 * @var TINYINT
+	 * @var SMALLINT
 	 */
-	public $comment;
+	protected $year;
 	
 	/**
-	 * @var DATE
+	 * @var DATETIME
 	 */
-	public $is_waived;
-	
-	/**
-	 * @var DATE
-	 */
-	public $due;
-	
-	/**
-	 * @var 
-	 */
-	public $assigned;
+	protected $approved;
 	
 	public $pog_attribute_type = array(
-		"assignment_id" => array('db_attributes' => array("NUMERIC", "INT")),
-		"assignment_id" => array('db_attributes' => array("NUMERIC", "INT")),
+		"id" => array('db_attributes' => array("NUMERIC", "INT")),
 		"student_id" => array('db_attributes' => array("NUMERIC", "INT")),
-		"points" => array('db_attributes' => array("NUMERIC", "INT")),
-		"grade_id" => array('db_attributes' => array("TEXT", "VARCHAR", "255")),
-		"comment" => array('db_attributes' => array("NUMERIC", "TINYINT")),
-		"is_waived" => array('db_attributes' => array("NUMERIC", "DATE")),
-		"due" => array('db_attributes' => array("NUMERIC", "DATE")),
-		"assigned" => array('db_attributes' => array("TEXT", "")),
+		"approver_id" => array('db_attributes' => array("NUMERIC", "INT")),
+		"year" => array('db_attributes' => array("NUMERIC", "SMALLINT")),
+		"approved" => array('db_attributes' => array("TEXT", "DATETIME")),
 		);
+	
+	
 	public $pog_query;
+	
 	protected $connection;
 	
 	
+	
 	/**
-	 * Getter for some private attributes
+	 * Magic getter for some private attributes
 	 * @return mixed $attribute
 	 */
 	public function __get($attribute)
@@ -95,48 +75,42 @@ class AssignmentGrade extends WPOGBase
 		}
 	}
 	
-	function AssignmentGrade($assignment_id='', $student_id='', $points='', $grade_id='', $comment='', $is_waived='', $due='', $assigned='')
+	function slp_approval($id='', $student_id='', $approver_id='', $year='', $approved='')
 	{
 		global $DATABASEPDO;
 		$this->connection = $DATABASEPDO;
-		$this->assignment_id = $assignment_id;
+		$this->id = $id;
 		$this->student_id = $student_id;
-		$this->points = $points;
-		$this->grade_id = $grade_id;
-		$this->comment = $comment;
-		$this->is_waived = $is_waived;
-		$this->due = $due;
-		$this->assigned = $assigned;
+		$this->approver_id = $approver_id;
+		$this->year = $year;
+		$this->approved = $approved;
 	}
 	
 	
 	/**
 	 * Gets object from database
-	 * @param integer $assignment_id 
-	 * @return object $AssignmentGrade
+	 * @param integer $id 
+	 * @return object $slp_approval
 	 */
-	function get($assignment_id)
+	function get($id= null)
 	{
-		$this->pog_query = "select * from `assignmentgrade` where `assignment_id`='".intval($assignment_id)."' LIMIT 1";
-		$this->attributeList[0] = (int) $this->attributeList[0];
-		if ( $this->attributeList[0] == 0 ) {
-		throw new Exception( __FILE__ ." : ".  __LINE__ ." : Invalid ID: $this->attributeList[0].");
+		$id = (int) $id;
+		if ($id == 0) {
+		throw new Exception( __FILE__ ." : ".  __LINE__ ." : ID is null or 0: $this->attributeList[0].");
 		}
 
+		$this->pog_query = "select * from `slp_approval` where `id` = '".intval($id)."' LIMIT 1";
 		if ( 0 == Database::Query($this->pog_query, $this->connection) ) {
 			throw new Exception( __FILE__ ." : ".  __LINE__ ." : Query ". $this->pog_query ."  failed. Is the table is empty?");
 		}
-
-		$cursor = Database::Reader($this->pog_query, $connection);
+		
+		$cursor = Database::Reader($this->pog_query, $this->connection);
 		while ($row = Database::Read($cursor)) {
-			$this->assignment_id = $this->Unescape($row['assignment_id']);
+			$this->id = $this->Unescape($row['id']);
 			$this->student_id = $this->Unescape($row['student_id']);
-			$this->points = $this->Unescape($row['points']);
-			$this->grade_id = $this->Unescape($row['grade_id']);
-			$this->comment = $this->Unescape($row['comment']);
-			$this->is_waived = $this->Unescape($row['is_waived']);
-			$this->due = $row['due'];
-			$this->assigned = $row['assigned'];
+			$this->approver_id = $this->Unescape($row['approver_id']);
+			$this->year = $this->Unescape($row['year']);
+			$this->approved = $row['approved'];
 		}
 		return $this;
 	}
@@ -153,51 +127,44 @@ class AssignmentGrade extends WPOGBase
 	
 	/**
 	 * Saves the object to the database
-	 * @return integer $assignmentgradeId
+	 * @return integer $id
 	 */
-	function save()
+	function save($deep = true)
 	{
 		$rows = 0;
-		if ($this->assignment_id!=''){
-			$this->pog_query = "select `assignment_id` from `assignmentgrade` where `assignmentgradeid`='".$this->assignment_id."' LIMIT 1";
+		if ($this->id!=''){
+			$this->pog_query = "select `id` from `slp_approval` where `id` = '".$this->id."' LIMIT 1";
 			$rows = Database::Query($this->pog_query, $connection);
 		}
 		if ($rows > 0) {
-			$this->pog_query = "update `assignmentgrade` set 
-				`assignment_id`='".$this->Escape($this->assignment_id)."', 
+			$this->pog_query = "update `slp_approval` set 
+				`id`='".$this->Escape($this->id)."', 
 				`student_id`='".$this->Escape($this->student_id)."', 
-				`points`='".$this->Escape($this->points)."', 
-				`grade_id`='".$this->Escape($this->grade_id)."', 
-				`comment`='".$this->Escape($this->comment)."', 
-				`is_waived`='".$this->is_waived."', 
-				`due`='".$this->due."' 
-				`assigned`='".$this->Escape($this->assigned)."'where `assignment_id`='".$this->assignment_id."'";
+				`approver_id`='".$this->Escape($this->approver_id)."', 
+				`year`='".$this->Escape($this->year)."', 
+				`approved`='".$this->approved."' where `id`='".$this->id."'";
 		} else {
-			$this->pog_query = "insert into `assignmentgrade` (`assignment_id`, `student_id`, `points`, `grade_id`, `comment`, `is_waived`, `due`, `assigned` ) values (
-			'".$this->Escape($this->assignment_id)."', 
+			$this->pog_query = "insert into `slp_approval` (`student_id`, `approver_id`, `year`, `approved` ) values (
 			'".$this->Escape($this->student_id)."', 
-			'".$this->Escape($this->points)."', 
-			'".$this->Escape($this->grade_id)."', 
-			'".$this->Escape($this->comment)."', 
-			'".$this->Escape($this->is_waived)."', 
-			'".$this->due."', 
-			'".$this->assigned."' )";
+			'".$this->Escape($this->approver_id)."', 
+			'".$this->Escape($this->year)."', 
+			'".$this->approved."' )";
 		}
 		$insertId = Database::InsertOrUpdate($this->pog_query, $connection);
-		if ($this->assignment_id == "") {
-			$this->assignment_id = $insertId;
+		if ($this->id == "") {
+			$this->id = $insertId;
 		}
-		return $this->assignment_id;
+		return $this->get_id();
 	}
 	
 	
 	/**
 	 * Clones the object and saves it to the database
-	 * @return integer $assignment_id
+	 * @return integer $id
 	 */
-	function saveNew()
+	function saveNew($deep = false)
 	{
-		$this->assignment_id = '';
+		$this->id = '';
 		return $this->save();
 	}
 	
@@ -206,9 +173,9 @@ class AssignmentGrade extends WPOGBase
 	 * Deletes the object from the database
 	 * @return boolean
 	 */
-	function delete()
+	function delete($deep = false, $across = false)
 	{
-		$this->pog_query = "delete from `assignmentgrade` where `assignmentgradeid`='".$this->assignment_id."'";
+		$this->pog_query = "delete from `slp_approval` where `id` = '".$this->id."'";
 		return Database::NonQuery($this->pog_query, $connection);
 	}
 	
@@ -220,5 +187,115 @@ class AssignmentGrade extends WPOGBase
 	//function deleteList($fcv_array)
 	//{
 	//}
+	
+	
+	/**
+	 * Get property
+	 * @return int $id
+	 */
+	function get_id()
+	{
+		return $this->id;
+	}
+	
+	
+	/**
+	 * Get property
+	 * @return int $student_id
+	 */
+	function get_student_id()
+	{
+		return $this->student_id;
+	}
+	
+	
+	/**
+	 * Get property
+	 * @return int $approver_id
+	 */
+	function get_approver_id()
+	{
+		return $this->approver_id;
+	}
+	
+	
+	/**
+	 * Get property
+	 * @return smallint $year
+	 */
+	function get_year()
+	{
+		return $this->year;
+	}
+	
+	
+	/**
+	 * Get property
+	 * @return datetime $approved
+	 */
+	function get_approved()
+	{
+		return $this->approved;
+	}
+	
+	
+	/**
+	 * Set property 
+	 * @param int $id 
+	 * @return bool true on success. false on error.
+	 */
+	function set_id($id = null)
+	{
+		$this->id = $id;
+		return true;
+	}
+	
+	
+	/**
+	 * Set property 
+	 * @param int $student_id 
+	 * @return bool true on success. false on error.
+	 */
+	function set_student_id($student_id = null)
+	{
+		$this->student_id = $student_id;
+		return true;
+	}
+	
+	
+	/**
+	 * Set property 
+	 * @param int $approver_id 
+	 * @return bool true on success. false on error.
+	 */
+	function set_approver_id($approver_id = null)
+	{
+		$this->approver_id = $approver_id;
+		return true;
+	}
+	
+	
+	/**
+	 * Set property 
+	 * @param smallint $year 
+	 * @return bool true on success. false on error.
+	 */
+	function set_year($year = null)
+	{
+		$this->year = $year;
+		return true;
+	}
+	
+	
+	/**
+	 * Set property 
+	 * @param datetime $approved 
+	 * @return bool true on success. false on error.
+	 */
+	function set_approved($approved = null)
+	{
+		$this->approved = $approved;
+		return true;
+	}
 }
 ?>

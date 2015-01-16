@@ -260,7 +260,6 @@ $pdoDriver = ($misc->GetVariable('pdoDriver')!=null?$misc->GetVariable('pdoDrive
 				</span>
 				<br/>
 				</div>';
-
 			}
 		}
 		else

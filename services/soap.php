@@ -190,8 +190,7 @@ function GenerateObject($objectName, $attributeList, $typeList, $language, $wrap
 	}
 	else
 	{
-
-		if  (strtolower($language) == "php4")
+		if (strtolower($language) == "php4")
 		{
 			require_once "../object_factory/class.objectphp4pogmysql.php";
 		}
@@ -200,19 +199,17 @@ function GenerateObject($objectName, $attributeList, $typeList, $language, $wrap
 			require_once "../object_factory/class.objectphp5pogmysql.php";
 		}
 	}
+	
 	$object = new Object($objectName,$attributeList,$typeList,$pdoDriver, $language);
 	$object->BeginObject();
 	$object->CreateMagicGetterFunction();
 	$object->CreateConstructor();
 	$object->CreateGetFunction();
-	$object->CreateGetFunctions();
-	$object->CreateSetFunctions();
 	$object->CreateGetListFunction();
 	$object->CreateSaveFunction((in_array("HASMANY", $typeList) || in_array("JOIN", $typeList)));
 	$object->CreateSaveNewFunction((in_array("HASMANY", $typeList) || in_array("JOIN", $typeList)));
 	$object->CreateDeleteFunction((in_array("HASMANY", $typeList) || in_array("JOIN", $typeList)));
 	$object->CreateDeleteListFunction((in_array("HASMANY", $typeList) || in_array("JOIN", $typeList)));
-
 	$i = 0;
 	foreach ($typeList as $type)
 	{
@@ -494,7 +491,7 @@ function GeneratePackage($objectName, $attributeList, $typeList, $language, $wra
 	$data = file_get_contents("../object_factory/class.pog_base.".strtolower($language).strtolower($wrapper).".php");
 	$package["objects"]["class.pog_base.php"] = base64_encode($data);
 
-	$package["objects"]["class.".strtolower($objectName).".php"] =  GenerateObject($objectName, $attributeList, $typeList, $language, $wrapper, $pdoDriver);
+	$package["objects"][$objectName.".class.inc"] =  GenerateObject($objectName, $attributeList, $typeList, $language, $wrapper, $pdoDriver);
 
 	$package["objects"]["ignore_objects.txt"] = "";
 

@@ -1,4 +1,7 @@
 <?php
+/*
+ * @todo: Clean up skipping of Primary ID. Primary ID needs its own type.
+ */
 class Object
 {
 	var $string;
@@ -46,7 +49,6 @@ class Object
 			}
 		}
 		$this->string .= "\nclass ".$this->objectName." extends WPOGBase\n{\n\t";
-		$this->string.="private \$".strtolower($this->objectName)."Id = '';\n\n\t";
 		$x = 0;
 		foreach ($this->attributeList as $attribute)
 		{
@@ -87,8 +89,11 @@ class Object
 			$x++;
 		}
 		$this->string .= ");\n\t";
-		$this->string .= "public \$pog_query;";
+		$this->string .= "\n\t";
+		$this->string .= "\n\tpublic \$pog_query;";
+		$this->string .= "\n\t";
 		$this->string .= "\n\tprotected \$connection;";
+		$this->string .= "\n\t";
 	}
 
 	// -------------------------------------------------------------
@@ -161,7 +166,7 @@ class Object
 		{
 			$this->sql .= " INDEX(".implode(',', $indexesToBuild)."),";
 		}
-		$this->sql .= " PRIMARY KEY  (`".strtolower($this->objectName)."id`)) ENGINE=Innodb;";
+		$this->sql .= " PRIMARY KEY  (`".strtolower($this->attributeList[0])."id`)) ENGINE=Innodb;";
 	}
 
 	// -------------------------------------------------------------
@@ -202,7 +207,7 @@ class Object
 	function CreateMagicGetterFunction()
 	{
 		$this->string .= "\n\t".$this->separator."\n\t";
-		$this->string .= $this->CreateComments("Getter for some private attributes",'',"mixed \$attribute");
+		$this->string .= $this->CreateComments("Magic getter for some private attributes",'',"mixed \$attribute");
 		$this->string .= "\tpublic function __get(\$attribute)\n\t{";
 		$this->string .= "\n\t\tif (isset(\$this->{\"_\".\$attribute})) {";
 		$this->string .= "\n\t\t\treturn \$this->{\"_\".\$attribute};";
@@ -217,27 +222,20 @@ class Object
 	{
 		$misc = new Misc(array());
 		$this->string .= "\n\t".$this->separator."\n\t";
-		$this->string .= $this->CreateComments("Saves the object to the database",'',"integer $".strtolower($this->objectName)."Id");
-		if ($deep)
-		{
-			$this->string .= "\tfunction save(\$deep = true)\n\t{";
-		}
-		else
-		{
-			$this->string .= "\tfunction save()\n\t{";
-		}
+		$this->string .= $this->CreateComments("Saves the object to the database",'',"integer $".strtolower($this->attributeList[0]));
+		$this->string .= "\tfunction save(\$deep = true)\n\t{";
 		
 		$this->string .= "\n\t\t\$rows = 0;";
 		$this->string .= "\n\t\tif (\$this->".strtolower($this->attributeList[0])."!=''){";
-		$this->string .= "\n\t\t\t\$this->pog_query = \"select `".strtolower($this->attributeList[0])."` from `".strtolower($this->objectName)."` where `".strtolower($this->objectName)."id`='\".\$this->".strtolower($this->attributeList[0]).".\"' LIMIT 1\";";
-		$this->string .= "\n\t\t\t\$rows = Database::Query(\$this->pog_query, \$connection);";
+		$this->string .= "\n\t\t\t\$this->pog_query = \"select `".strtolower($this->attributeList[0])."` from `".strtolower($this->objectName)."` where `".strtolower($this->attributeList[0])."` = '\".\$this->".strtolower($this->attributeList[0]).".\"' LIMIT 1\";";
+		$this->string .= "\n\t\t\t\$rows = Database::Query(\$this->pog_query, \$this->connection);";
 		$this->string .= "\n\t\t}";
 		$this->string .= "\n\t\tif (\$rows > 0) {";
 		$this->string .= "\n\t\t\t\$this->pog_query = \"update `".strtolower($this->objectName)."` set ";
-		$x=1;
+		$x=0;
 		foreach ($this->attributeList as $attribute)
 		{
-			if ($this->typeList[$x] != "HASMANY" && $this->typeList[$x] != "JOIN")
+			if ($this->typeList[$x] != "HASMANY" && $this->typeList[$x] != "JOIN" && $x != 0)
 			{
 				if ($x == (count($this->attributeList)-1))
 				{
@@ -248,7 +246,7 @@ class Object
 					{
 						if ($this->typeList[$x] == "BELONGSTO")
 						{
-							$this->string .= "\n\t\t\t\t`".strtolower($attribute)."id`='\".\$this->".strtolower($this->attributeList[0]).".\"' ";
+							$this->string .= "\n\t\t\t\t`".strtolower($attribute)."id`='\".\$this->".strtolower($attribute)."Id.\"' ";
 						}
 						else
 						{
@@ -266,7 +264,7 @@ class Object
 					{
 						if ($this->typeList[$x] == "BELONGSTO")
 						{
-							$this->string .= "\n\t\t\t\t`".strtolower($attribute)."ID`='\".\$this->".strtolower($attribute).".\"', ";
+							$this->string .= "\n\t\t\t\t`".strtolower($attribute)."id`='\".\$this->".strtolower($attribute)."Id.\"', ";
 						}
 						else
 						{
@@ -288,16 +286,18 @@ class Object
 		$this->string .= "where `".strtolower($this->attributeList[0])."`='\".\$this->".strtolower($this->attributeList[0]).".\"'\";";
 		$this->string .= "\n\t\t} else {";
 		$this->string .= "\n\t\t\t\$this->pog_query = \"insert into `".strtolower($this->objectName)."` (";
-		$y=0;
+		$y = 0; 
 		foreach ($this->attributeList as $attribute)
 		{
-			if ($this->typeList[$y] != "HASMANY"  && $this->typeList[$y] != "JOIN")
+			// Skipping element 0 because it is Primary ID
+			// @todo: Clean up skipping of Primary ID.
+			if ($this->typeList[$y] != "HASMANY"  && $this->typeList[$y] != "JOIN" && $y != 0)
 			{
 				if ($y == (count($this->attributeList)-1))
 				{
 					if ($this->typeList[$y] == "BELONGSTO")
 					{
-						$this->string .= "`".strtolower($attribute)."ID` ";
+						$this->string .= "`".strtolower($attribute)."id` ";
 					}
 					else
 					{
@@ -308,7 +308,7 @@ class Object
 				{
 					if ($this->typeList[$y] == "BELONGSTO")
 					{
-						$this->string .= "`".strtolower($attribute)."ID`, ";
+						$this->string .= "`".strtolower($attribute)."id`, ";
 					}
 					else
 					{
@@ -323,10 +323,12 @@ class Object
 			$this->string = substr($this->string, 0, strlen($this->string) - 2);
 		}
 		$this->string .= ") values (";
-		$z=0;
+		$z = 0;
 		foreach ($this->attributeList as $attribute)
 		{
-			if ($this->typeList[$z] != "HASMANY" && $this->typeList[$z] != "JOIN")
+			// Skipping element 0 because it is Primary ID
+			// @todo: Clean up skipping of Primary ID.
+			if ($this->typeList[$y] != "HASMANY"  && $this->typeList[$y] != "JOIN" && $z != 0)
 			{
 				if ($z == (count($this->attributeList)-1))
 				{
@@ -334,7 +336,7 @@ class Object
 					{
 						if ($this->typeList[$z] == "BELONGSTO")
 						{
-							$this->string .= "\n\t\t\t'\".\$this->".strtolower($attribute).".\"' ";
+							$this->string .= "\n\t\t\t'\".\$this->".strtolower($attribute)."Id.\"' ";
 						}
 						else
 						{
@@ -352,7 +354,7 @@ class Object
 					{
 						if ($this->typeList[$z] == "BELONGSTO")
 						{
-							$this->string .= "\n\t\t\t'\".\$this->".strtolower($attribute).".\"', ";
+							$this->string .= "\n\t\t\t'\".\$this->".strtolower($attribute)."Id.\"', ";
 						}
 						else
 						{
@@ -373,7 +375,7 @@ class Object
 		}
 		$this->string .= ")\";";
 		$this->string .= "\n\t\t}";
-		$this->string .= "\n\t\t\$insertId = Database::InsertOrUpdate(\$this->pog_query, \$connection);";
+		$this->string .= "\n\t\t\$insertId = Database::InsertOrUpdate(\$this->pog_query, \$this->connection);";
 		$this->string .= "\n\t\tif (\$this->".strtolower($this->attributeList[0])." == \"\") {";
 		$this->string .= "\n\t\t\t\$this->".strtolower($this->attributeList[0])." = \$insertId;";
 		$this->string .= "\n\t\t}";
@@ -386,7 +388,7 @@ class Object
 				if ($type == "HASMANY")
 				{
 					$this->string .= "\n\t\t\tforeach (\$this->_".strtolower($this->attributeList[$i])."List as $".strtolower($this->attributeList[$i]).") {";
-					$this->string .= "\n\t\t\t\t\$".strtolower($this->attributeList[$i])."->".strtolower($this->objectName)."Id = \$this->".strtolower($this->objectName)."Id;";
+					$this->string .= "\n\t\t\t\t\$".strtolower($this->attributeList[$i])."->".strtolower($this->attributeList[0])." = \$this->".strtolower($this->attributeList[0]).";";
 					$this->string .= "\n\t\t\t\t\$".strtolower($this->attributeList[$i])."->save(\$deep);";
 					$this->string .= "\n\t\t\t}";
 				}
@@ -403,7 +405,7 @@ class Object
 			}
 			$this->string .= "\n\t\t}";
 		}
-		$this->string .= "\n\t\treturn \$this->".strtolower($this->attributeList[0]).";";
+		$this->string .= "\n\t\treturn \$this->get_".strtolower($this->attributeList[0])."();";
 		$this->string .= "\n\t}";
 	}
 
@@ -412,14 +414,9 @@ class Object
 	{
 		$this->string .= "\n\t$this->separator\n\t";
 		$this->string .= $this->CreateComments("Clones the object and saves it to the database",'',"integer $".strtolower($this->attributeList[0]));
-		if ($deep)
-		{
-			$this->string .="\tfunction saveNew(\$deep = false)\n\t{";
-		}
-		else
-		{
-			$this->string .="\tfunction saveNew()\n\t{";
-		}
+		$this->string .="\tfunction saveNew(\$deep = false)\n\t{";
+		
+		// Primary ID
 		$this->string .= "\n\t\t\$this->".strtolower($this->attributeList[0])." = '';";
 		if ($deep)
 		{
@@ -438,14 +435,7 @@ class Object
 		$misc = new Misc(array());
 		$this->string .= "\n\t$this->separator\n\t";
 		$this->string .= $this->CreateComments("Deletes the object from the database",'',"boolean");
-		if ($deep)
-		{
-			$this->string .= "\tfunction delete(\$deep = false, \$across = false)\n\t{";
-		}
-		else
-		{
-			$this->string .= "\tfunction delete()\n\t{";
-		}
+		$this->string .= "\tfunction delete(\$deep = false, \$across = false)\n\t{";
 		if ($deep)
 		{
 			if (in_array("HASMANY", $this->typeList))
@@ -496,8 +486,10 @@ class Object
 				$this->string .= "\n\t\t}";
 			}
 		}
-		$this->string .= "\n\t\t\$this->pog_query = \"delete from `".strtolower($this->objectName)."` where `".strtolower($this->objectName)."id`='\".\$this->".strtolower($this->attributeList[0]).".\"'\";";
-		$this->string .= "\n\t\treturn Database::NonQuery(\$this->pog_query, \$connection);";
+		
+		// Primary ID
+		$this->string .= "\n\t\t\$this->pog_query = \"delete from `".strtolower($this->objectName)."` where `".strtolower($this->attributeList[0])."` = '\".\$this->".strtolower($this->attributeList[0]).".\"'\";";
+		$this->string .= "\n\t\treturn Database::NonQuery(\$this->pog_query, \$this->connection);";
 		$this->string .= "\n\t}";
 	}
 
@@ -516,20 +508,20 @@ class Object
 	{
 		$this->string .= "\n\t".$this->separator."\n\t";
 		$this->string .= $this->CreateComments("Gets object from database",array("integer \$".strtolower($this->attributeList[0])),"object \$".$this->objectName);
-		$this->string .="\tfunction get(\$".strtolower($this->attributeList[0]).")\n\t{";
-		$this->string .= "\n\t\t\$this->pog_query = \"select * from `".strtolower($this->objectName)."` where `".strtolower($this->attributeList[0])."`='\".intval(\$".strtolower($this->attributeList[0]).").\"' LIMIT 1\";";
+		$this->string .="\tfunction get(\$".strtolower($this->attributeList[0]) ."= null)\n\t{";
 		
-		$this->string .= "\n\t\t\$this->attributeList[0] = (int) \$this->attributeList[0];";
-		$this->string .= "\n\t\tif ( \$this->attributeList[0] == 0 ) {";
-		$this->string .= "\n\t\tthrow new Exception( __FILE__ .\" : \".  __LINE__ .\" : Invalid ID: \$this->attributeList[0].\");";
+		$this->string .= "\n\t\t\$". strtolower($this->attributeList[0]) ." = (int) \$". $this->attributeList[0] .";";
+		$this->string .= "\n\t\tif (\$". strtolower($this->attributeList[0]) ." == 0) {";
+		$this->string .= "\n\t\tthrow new Exception( __FILE__ .\" : \".  __LINE__ .\" : ID is null or 0: \$this->attributeList[0].\");";
 		$this->string .= "\n\t\t}";
 		$this->string .= "\n";
 		
+		$this->string .= "\n\t\t\$this->pog_query = \"select * from `".strtolower($this->objectName)."` where `".strtolower($this->attributeList[0])."` = '\".intval(\$".strtolower($this->attributeList[0]).").\"' LIMIT 1\";";
 		$this->string .= "\n\t\tif ( 0 == Database::Query(\$this->pog_query, \$this->connection) ) {";
 		$this->string .= "\n\t\t\tthrow new Exception( __FILE__ .\" : \".  __LINE__ .\" : Query \". \$this->pog_query .\"  failed. Is the table is empty?\");";
 		$this->string .= "\n\t\t}";
-		$this->string .= "\n";
-		$this->string .= "\n\t\t\$cursor = Database::Reader(\$this->pog_query, \$connection);";
+		$this->string .= "\n\t\t";
+		$this->string .= "\n\t\t\$cursor = Database::Reader(\$this->pog_query, \$this->connection);";
 		$this->string .= "\n\t\twhile (\$row = Database::Read(\$cursor)) {";
 		$x = 0;
 		foreach ($this->attributeList as $attribute)
@@ -557,38 +549,6 @@ class Object
 		$this->string .= "\n\t\t}";
 		$this->string .= "\n\t\treturn \$this;";
 		$this->string .= "\n\t}";
-	}
-	
-	// -------------------------------------------------------------
-	function CreateGetFunctions()
-	{
-		foreach ($this->attributeList as $attribute)
-		{
-			$this->string .= "\n\t".$this->separator."\n\t";
-			$this->string .= $this->CreateComments("Get property",array("integer \$".strtolower($this->attributeList[0])),"object \$".$this->objectName);
-			$this->string .="\tfunction get_".$attribute."(\$".strtolower($this->attributeList[0]).")\n\t{";
-			//$this->string .= "\n\t\twhile (\$row = Database::Read(\$cursor)) {";
-			$x = 0;
-			$x++;
-			$this->string .= "\n\t\treturn \$this->".$attribute.";";
-			$this->string .= "\n\t}";
-		}
-	}
-	
-	// -------------------------------------------------------------
-	function CreateSetFunctions()
-	{
-		$x = 0;
-		foreach ($this->attributeList as $attribute)
-		{
-			$this->string .= "\n\t".$this->separator."\n\t";
-			$this->string .= $this->CreateComments("Set property", array($typeList[$x] . " \$". $attribute), "bool true on success. false on error.");
-			$this->string .="\tfunction set_".$attribute. "(\$". $attribute . " = null)\n\t{";
-			$this->string .= "\n\t\t\$this->".$attribute." = \$". $attribute ;
-			$this->string .= "\n\t\treturn true;";
-			$this->string .= "\n\t}";
-			$x++;
-		}
 	}
 	
 	// -------------------------------------------------------------
@@ -624,11 +584,10 @@ class Object
 	}
 
 	// -------------------------------------------------------------
-	// @todo: Implement and test
 	function CreateGetChildrenFunction($child, $class)
 	{
 		$this->string .= "\n\t$this->separator\n\t";
-		$this->string .= $this->CreateComments("Not implemented or tested. Gets a list of $child objects associated to this one", array("multidimensional array {(\"field\", \"comparator\", \"value\"), (\"field\", \"comparator\", \"value\"), ...}","string \$sortBy","boolean \$ascending","int limit"),"array of $child objects");
+		$this->string .= $this->CreateComments("Gets a list of child objects $child associated to this one", array("multidimensional array {(\"field\", \"comparator\", \"value\"), (\"field\", \"comparator\", \"value\"), ...}","string \$sortBy","boolean \$ascending","int limit"),"array of child objects $child");
 		$this->string .= "\tfunction get".ucfirst(strtolower($child))."List(\$fcv_array = array(), \$sortBy='', \$ascending=true, \$limit='')\n\t{";
 		$this->string .= "\n\t\t\$".strtolower($child)." = new ".$class."();";
 		$this->string .= "\n\t\t\$fcv_array[] = array(\"".strtolower($this->attributeList[0])."\", \"=\", \$this->".strtolower($this->attributeList[0]).");";
@@ -638,11 +597,10 @@ class Object
 	}
 
 	// -------------------------------------------------------------
-	// @todo: Implement and test
 	function CreateSetChildrenFunction($child)
 	{
 		$this->string .= "\n\t$this->separator\n\t";
-		$this->string .= $this->CreateComments("Not implemented or tested. Makes this the parent of all $child objects in the $child List array. Any existing $child will become orphan(s)",'',"null");
+		$this->string .= $this->CreateComments("Makes this the parent of all child objects $child in the $child List array. Any existing $child will become orphan(s)",'',"null");
 		$this->string .= "\tfunction set".ucfirst(strtolower($child))."List(&\$list)\n\t{";
 		$this->string .= "\n\t\t\$this->_".strtolower($child)."List = array();";
 		$this->string .= "\n\t\t\$existing".ucfirst(strtolower($child))."List = \$this->get".ucfirst(strtolower($child))."List();";
@@ -655,37 +613,36 @@ class Object
 	}
 
 	// -------------------------------------------------------------
-	// @todo: Implement and test
 	function CreateSetParentFunction($parent)
 	{
 		$this->string .= "\n\t$this->separator\n\t";
-		$this->string .= $this->CreateComments("Not implemented or tested. Associates the $parent object to this one",'',"");
+		$this->string .= $this->CreateComments("Associates parent object $parent to this one",'',"");
 		$this->string .= "\tfunction set".ucfirst(strtolower($parent))."(&\$".strtolower($parent).")\n\t{";
 		$this->string .= "\n\t\t\$this->".strtolower($parent)."Id = $".strtolower($parent)."->".strtolower($parent)."Id;";
 		$this->string .= "\n\t}";
 	}
 
 	// -------------------------------------------------------------
-	// @todo: Implement and test
 	function CreateGetParentFunction($parent, $class)
 	{
 		$this->string .= "\n\t$this->separator\n\t";
-		$this->string .= $this->CreateComments("Not implemented or tested. Associates the $parent object to this one",'',"boolean");
+		$this->string .= $this->CreateComments("Associates parent object $parent to this one",'',"boolean");
 		$this->string .= "\tfunction get".ucfirst(strtolower($parent))."()\n\t{";
 		$this->string .= "\n\t\t\$".strtolower($parent)." = new ".$class."();";
 		$this->string .= "\n\t\treturn $".strtolower($parent)."->get(\$this->".strtolower($parent)."Id);";
 		$this->string .= "\n\t}";
 	}
-
-
-	// Relations {Many-Many} functions
-
+	
+	/*
+	 * Relations {Many-Many} functions.
+	 * All seem to be unused as of POG 3.x.
+	 */
+	
 	// -------------------------------------------------------------
-	// @todo: Implement and test
 	function CreateAddAssociationFunction($sibling)
 	{
 		$this->string .= "\n\t$this->separator\n\t";
-		$this->string .= $this->CreateComments("Not implemented or tested. Associates the $sibling object to this one",'',"");
+		$this->string .= $this->CreateComments("Associates the sibling object $sibling to this one",'',"");
 		$this->string .= "\tfunction add".ucfirst(strtolower($sibling))."(&\$".strtolower($sibling).")\n\t{";
 		$this->string .= "\n\t\tif (\$".strtolower($sibling)." instanceof ".$sibling.") {";
 		$this->string .= "\n\t\t\tif (in_array(\$this, \$".strtolower($sibling)."->".strtolower($this->objectName)."List, true)) {";
@@ -707,12 +664,11 @@ class Object
 	}
 
 	//-------------------------------------------------------------
-	// @todo: Implement and test
 	function CreateGetAssociationsFunction($sibling)
 	{
 		$misc = new Misc(array());
 		$this->string .= "\n\t".$this->separator."\n\t";
-		$this->string .= $this->CreateComments("Not implemented or tested. Returns a sorted array of objects that match given conditions",array("multidimensional array {(\"field\", \"comparator\", \"value\"), (\"field\", \"comparator\", \"value\"), ...}","string \$sortBy","boolean \$ascending","int limit"),"array \$".strtolower($this->objectName)."List");
+		$this->string .= $this->CreateComments("Returns a sorted array of objects that match given conditions",array("multidimensional array {(\"field\", \"comparator\", \"value\"), (\"field\", \"comparator\", \"value\"), ...}","string \$sortBy","boolean \$ascending","int limit"),"array \$".strtolower($this->objectName)."List");
 		$this->string .= "\tfunction get".ucfirst(strtolower($sibling))."List(\$fcv_array = array(), \$sortBy='', \$ascending=true, \$limit='')\n\t{";
 		$this->string .= "\n\t\t\$sqlLimit = (\$limit != '' ? \"LIMIT \$limit\" : '');";
 		$this->string .= "\n\t\t\$".strtolower($sibling)." = new ".$sibling."();";
@@ -757,7 +713,7 @@ class Object
 		$this->string .= "\n\t\t\t\$sortBy = \"a.".strtolower($sibling)."id\";";
 		$this->string .= "\n\t\t}";
 		$this->string .= "\n\t\t\$this->pog_query .= \" order by \".\$sortBy.\" \".(\$ascending ? \"asc\" : \"desc\").\" \$sqlLimit\";";
-		$this->string .= "\n\t\t\$cursor = Database::Reader(\$this->pog_query, \$connection);";
+		$this->string .= "\n\t\t\$cursor = Database::Reader(\$this->pog_query, \$this->connection);";
 		$this->string .= "\n\t\twhile(\$rows = Database::Read(\$cursor)) {";
 		$this->string .= "\n\t\t\t\$".strtolower($sibling)." = new ".$sibling."();";
 		$this->string .= "\n\t\t\tforeach (\$".strtolower($sibling)."->pog_attribute_type as \$attribute_name => \$attrubute_type) {";
@@ -774,20 +730,54 @@ class Object
 		$this->string .= "\n\t\treturn \$".strtolower($sibling)."List;";
 		$this->string .= "\n\t}";
 	}
-
+	
 	// -------------------------------------------------------------
-	// @todo: Implement and test
 	function CreateSetAssociationsFunction($sibling)
 	{
 		$misc = new Misc(array());
 		$this->string .= "\n\t$this->separator\n\t";
-		$this->string .= $this->CreateComments("Not implemented or tested. Creates mappings between this and all objects in the $sibling List array. Any existing mapping will become orphan(s)",'',"null");
+		$this->string .= $this->CreateComments("Creates mappings between this and all objects in the $sibling List array. Any existing mapping will become orphan(s)",'',"null");
 		$this->string .= "\tfunction set".ucfirst(strtolower($sibling))."List(&\$".strtolower($sibling)."List)\n\t{";
 		$this->string .= "\n\t\t\$map = new ".$misc->MappingName($this->objectName, $sibling)."();";
 		$this->string .= "\n\t\t\$map->RemoveMapping(\$this);";
 		$this->string .= "\n\t\t\$this->_".strtolower($sibling)."List = \$".strtolower($sibling)."List;";
 		$this->string .= "\n\t}";
 	}
-
+	
+	/*
+	 * Get and set functions.
+	 * Templates functions to be filled in.
+	 */
+	
+	// -------------------------------------------------------------
+	function CreateGetFunctions()
+	{
+		$x = 0;
+		foreach ($this->attributeList as $attribute)
+		{
+			$this->string .= "\n\t".$this->separator."\n\t";
+			$this->string .= $this->CreateComments("Get property", '', strtolower($this->typeList[$x]) . " \$" .strtolower($attribute));
+			$this->string .="\tfunction get_".strtolower($attribute)."()\n\t{";
+			$this->string .= "\n\t\treturn \$this->".strtolower($attribute).";";
+			$this->string .= "\n\t}";
+			$x++;
+		}
+	}
+	
+	// -------------------------------------------------------------
+	function CreateSetFunctions()
+	{
+		$x = 0;
+		foreach ($this->attributeList as $attribute)
+		{
+			$this->string .= "\n\t".$this->separator."\n\t";
+			$this->string .= $this->CreateComments("Set property ", array(strtolower($this->typeList[$x]) . " \$". strtolower($attribute)), "bool true on success. false on error.");
+			$this->string .="\tfunction set_".strtolower($attribute). "(\$". strtolower($attribute) . " = null)\n\t{";
+			$this->string .= "\n\t\t\$this->".strtolower($attribute)." = \$". strtolower($attribute) .";";
+			$this->string .= "\n\t\treturn true;";
+			$this->string .= "\n\t}";
+			$x++;
+		}
+	}
 }
 ?>
